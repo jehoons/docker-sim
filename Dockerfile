@@ -59,8 +59,5 @@ RUN         echo '/usr/local/sbml2matlab/lib/python2.7/site-packages/sbml2matlab
 RUN         echo '/usr/local/sbml2matlab' | tee /etc/ld.so.conf.d/sbml2matlab.conf
 RUN         ldconfig
 
-# Add RPC Server
-ADD         server.py /usr/local/sim/server.py
-
 # Clean up
 RUN rm -rf /tmp/projects /tmp/rr
