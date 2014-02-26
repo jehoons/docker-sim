@@ -1,4 +1,4 @@
-# Image for RoadRunner Simulation 
+# Image for RoadRunner Simulator
 #
 # VERSION               0.0.1
 
@@ -10,8 +10,8 @@ RUN         apt-get update -qq
 RUN         apt-get install -y -q python-software-properties
 RUN         apt-get install -y -q python-dev
 RUN         apt-get install -y -q python-pip
+RUN         apt-get install -y -q build-essential
 RUN         apt-get install -y -q git
-
 
 # Adding PPAs
 RUN         add-apt-repository -y ppa:chris-lea/zeromq
@@ -25,7 +25,7 @@ RUN         apt-get install -y libevent-dev python-pip python-gevent msgpack-pyt
 RUN         pip install zerorpc
 
 # Install libSBML
-RUN         apt-get install -y -q build-essential libxml2 libxml2-dev python-dev libtool cmake swig libbz2-dev subversion
+RUN         apt-get install -y -q libxml2 libxml2-dev libtool cmake swig libbz2-dev subversion
 RUN         mkdir -p /tmp/projects/libsbml/build_experimental
 RUN         cd /tmp/projects/libsbml && svn co https://svn.code.sf.net/p/sbml/code/branches/libsbml-experimental
 RUN         cd /tmp/projects/libsbml/build_experimental && cmake -DCMAKE_INSTALL_PREFIX=/usr/local/libsbml -DENABLE_LAYOUT=OFF -DENABLE_RENDER=OFF -DWITH_PYTHON=ON -DWITH_BZIP2=OFF ../libsbml-experimental
@@ -35,7 +35,7 @@ RUN         echo '/usr/local/libsbml/lib' | tee /etc/ld.so.conf.d/libsbml.conf
 RUN         ldconfig
  
 # Install RoadRunner
-RUN         apt-get install -y python-numpy swig llvm-3.2 git
+RUN         apt-get install -y python-numpy swig llvm-3.2
 RUN         mkdir -p /tmp/rr/build/thirdparty
 RUN         mkdir -p /tmp/rr/build/all
 RUN         cd /tmp/rr && git clone https://github.com/AndySomogyi/roadrunner.git
