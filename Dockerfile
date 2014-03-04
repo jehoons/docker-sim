@@ -59,5 +59,12 @@ RUN         echo '/usr/local/sbml2matlab/lib/python2.7/site-packages/sbml2matlab
 RUN         echo '/usr/local/sbml2matlab' | tee /etc/ld.so.conf.d/sbml2matlab.conf
 RUN         ldconfig
 
+# Install antimony
+RUN       apt-get install -y -q wget
+RUN       cd /tmp/projects && wget http://sourceforge.net/projects/antimony/files/Antimony%20source/2.5/antimony_src_v2.5.tar.gz/download -O antimony.tar.gz
+RUN       cd /tmp/projects && tar -xvzf antimony.tar.gz
+RUN       mkdir -p /tmp/projects/antimony/build
+RUN       cd /tmp/projects/antimony/build && cmake .. -DWITH_PYTHON=ON -DLIBSBML_INCLUDE_DIR=/usr/local/libsbml/include -DCMAKE_INSTALL_PREFIX=/usr/local/antimony -DLIBSBML_LIBRARY=/usr/local/libsbml/lib/libsbml.so -DWITH_QTANTIMONY=OFF -DWITH_CELLML=OFF -DWITH_COMP_SBML=OFF
+
 # Clean up
 RUN rm -rf /tmp/projects /tmp/rr
