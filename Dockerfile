@@ -60,11 +60,16 @@ RUN         echo '/usr/local/sbml2matlab' | tee /etc/ld.so.conf.d/sbml2matlab.co
 RUN         ldconfig
 
 # Install antimony
-RUN       apt-get install -y -q wget
-RUN       cd /tmp/projects && wget http://sourceforge.net/projects/antimony/files/Antimony%20source/2.5/antimony_src_v2.5.tar.gz/download -O antimony.tar.gz
-RUN       cd /tmp/projects && tar -xvzf antimony.tar.gz
-RUN       mkdir -p /tmp/projects/antimony/build
-RUN       cd /tmp/projects/antimony/build && cmake .. -DWITH_PYTHON=ON -DLIBSBML_INCLUDE_DIR=/usr/local/libsbml/include -DCMAKE_INSTALL_PREFIX=/usr/local/antimony -DLIBSBML_LIBRARY=/usr/local/libsbml/lib/libsbml.so -DWITH_QTANTIMONY=OFF -DWITH_CELLML=OFF -DWITH_COMP_SBML=OFF
+RUN         apt-get install -y -q wget
+RUN         cd /tmp/projects && svn co svn://128.208.17.26/SVN/antimony/
+RUN         mkdir -p /tmp/projects/antimony/build
+RUN         cd /tmp/projects/antimony/build && cmake .. -DWITH_PYTHON=ON -DLIBSBML_INCLUDE_DIR=/usr/local/libsbml/include -DCMAKE_INSTALL_PREFIX=/usr/local/antimony -DLIBSBML_LIBRARY=/usr/local/libsbml/lib/libsbml.so -DWITH_QTANTIMONY=OFF -DWITH_CELLML=OFF -DWITH_COMP_SBML=OFF
+RUN         cd /tmp/projects/antimony/build && make -j4
+RUN         cd /tmp/projects/antimony/build && make install
+RUN         mv /python2.7 /usr/local/antimony
+RUN         echo '/usr/local/antimony/python2.7/site-packages/antimony' | tee /usr/local/lib/python2.7/dist-packages/libantimony.pth
+RUN         echo '/usr/local/antimony/bin' | tee /etc/ld.so.conf.d/antimony.conf
+RUN         ldconfig
 
 # Clean up
 RUN rm -rf /tmp/projects /tmp/rr
