@@ -53,7 +53,7 @@ RUN         ldconfig
 RUN         mkdir -p /tmp/projects
 RUN         cd /tmp/projects && git clone https://github.com/stanley-gu/sbml2matlab.git
 RUN         mkdir -p /tmp/projects/sbml2matlab/build
-RUN         cd /tmp/projects/sbml2matlab/build && cmake .. -DLIBSBML_INCLUDE_DIR=/usr/local/libsbml/include -DCMAKE_INSTALL_PREFIX=/usr/local/sbml2matlab -DWITH_LIBSBML_LIBXML=ON -DLIBSBML_STATIC_LIBRARY=/usr/local/libsbml/lib/libsbml-static.a -DWITH_PYTHON=ON
+RUN         cd /tmp/projects/sbml2matlab/build && cmake .. -DLIBSBML_INCLUDE_DIR=/usr/local/libsbml/include -DCMAKE_INSTALL_PREFIX=/usr/local/sbml2matlab -DWITH_LIBSBML_LIBXML=ON -DLIBSBML_LIBRARY=/usr/local/libsbml/lib/libsbml-static.a -DWITH_PYTHON=ON -DCMAKE_CXX_FLAGS='-fPIC'
 RUN         cd /tmp/projects/sbml2matlab/build && make -j4 && make install
 RUN         echo '/usr/local/sbml2matlab/lib/python2.7/site-packages/sbml2matlab' | tee /usr/local/lib/python2.7/dist-packages/sbml2matlab.pth
 RUN         echo '/usr/local/sbml2matlab' | tee /etc/ld.so.conf.d/sbml2matlab.conf
