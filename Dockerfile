@@ -73,5 +73,13 @@ RUN         echo '/usr/local/antimony/python2.7/site-packages/antimony' | tee /u
 RUN         echo '/usr/local/antimony/bin' | tee /etc/ld.so.conf.d/antimony.conf
 RUN         ldconfig
 
+# Install pysces
+RUN         apt-get install -y -q gfortran python-scipy
+RUN         pip install pysces
+
+# Install IPython
+RUN         apt-get install python-matplotlib
+RUN         pip install ipython pyzmq jinja2 tornado
+
 # Clean up
 RUN rm -rf /tmp/projects /tmp/rr
