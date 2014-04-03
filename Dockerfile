@@ -18,7 +18,7 @@ RUN         add-apt-repository -y ppa:chris-lea/zeromq
 RUN         apt-get update -qq
 
 # Install ZMQ
-RUN         apt-get -y -q install libzmq3
+RUN         apt-get -y -q install libzmq3 libzmq3-dev
 
 # Install ZeroRPC
 RUN         apt-get install -y libevent-dev python-pip python-gevent msgpack-python
@@ -41,7 +41,7 @@ RUN         mkdir -p /tmp/rr/build/all
 RUN         cd /tmp/rr && git clone https://github.com/AndySomogyi/roadrunner.git
 RUN         cd /tmp/rr/build/thirdparty && cmake ../../roadrunner/third_party/ -DCMAKE_INSTALL_PREFIX=/usr/local/roadrunner/thirdparty
 RUN         cd /tmp/rr/build/thirdparty && make -j4 && make install
-RUN         cd /tmp/rr/build/all && cmake -DBUILD_PYTHON=ON -DBUILD_LLVM=ON -DBUILD_TESTS=ON -DCMAKE_INSTALL_PREFIX=/usr/local/roadrunner -DTHIRD_PARTY_INSTALL_FOLDER=/usr/local/roadrunner/thirdparty -DLLVM_CONFIG_EXECUTABLE=/usr/bin/llvm-config-3.2 -DBUILD_PLUGINS=OFF ../../roadrunner
+RUN         cd /tmp/rr/build/all && cmake -DBUILD_PYTHON=ON -DBUILD_LLVM=ON -DBUILD_TESTS=ON -DCMAKE_INSTALL_PREFIX=/usr/local/roadrunner -DTHIRD_PARTY_INSTALL_FOLDER=/usr/local/roadrunner/thirdparty -DLLVM_CONFIG_EXECUTABLE=/usr/bin/llvm-config-3.2 ../../roadrunner
 RUN         cd /tmp/rr/build/all && make -j4 && make install
 # Adding to python search path
 RUN         echo "/usr/local/roadrunner/site-packages/roadrunner" | tee /usr/local/lib/python2.7/dist-packages/rr.pth
@@ -61,11 +61,11 @@ RUN         ldconfig
 
 # Install antimony
 RUN         apt-get install -y -q wget
-RUN         cd /tmp/projects && svn co svn://128.208.17.26/SVN/antimony/
-RUN         mkdir -p /tmp/projects/antimony/build
-RUN         cd /tmp/projects/antimony/build && cmake .. -DWITH_PYTHON=ON -DLIBSBML_INCLUDE_DIR=/usr/local/libsbml/include -DCMAKE_INSTALL_PREFIX=/usr/local/antimony -DLIBSBML_LIBRARY=/usr/local/libsbml/lib/libsbml.so -DWITH_QTANTIMONY=OFF -DWITH_CELLML=OFF -DWITH_COMP_SBML=OFF
-RUN         cd /tmp/projects/antimony/build && make -j4
-RUN         cd /tmp/projects/antimony/build && make install
+RUN         cd /tmp/projects && svn checkout svn://svn.code.sf.net/p/antimony/code antimony-code
+RUN         mkdir -p /tmp/projects/antimony-code/antimony/build
+RUN         cd /tmp/projects/antimony-code/antimony/build && cmake .. -DWITH_PYTHON=ON -DLIBSBML_INCLUDE_DIR=/usr/local/libsbml/include -DCMAKE_INSTALL_PREFIX=/usr/local/antimony -DLIBSBML_LIBRARY=/usr/local/libsbml/lib/libsbml.so -DWITH_QTANTIMONY=OFF -DWITH_CELLML=OFF -DWITH_COMP_SBML=OFF
+RUN         cd /tmp/projects/antimony-code/antimony/build && make -j4
+RUN         cd /tmp/projects/antimony-code/antimony/build && make install
 RUN         mv /python2.7 /usr/local/antimony
 RUN         echo '/usr/local/antimony/python2.7/site-packages/antimony' | tee /usr/local/lib/python2.7/dist-packages/libantimony.pth
 RUN         echo '/usr/local/antimony/bin' | tee /etc/ld.so.conf.d/antimony.conf
