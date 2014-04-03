@@ -27,7 +27,7 @@ RUN         pip install zerorpc
 # Install libSBML
 RUN         apt-get install -y -q libxml2 libxml2-dev libtool cmake swig libbz2-dev subversion
 RUN         mkdir -p /tmp/projects/libsbml/build_experimental
-RUN         cd /tmp/projects/libsbml && svn co https://svn.code.sf.net/p/sbml/code/branches/libsbml-experimental
+RUN         cd /tmp/projects/libsbml && svn co https://svn.code.sf.net/p/sbml/code/branches/libsbml-experimental@20107
 RUN         cd /tmp/projects/libsbml/build_experimental && cmake -DCMAKE_INSTALL_PREFIX=/usr/local/libsbml -DENABLE_LAYOUT=OFF -DENABLE_RENDER=OFF -DWITH_PYTHON=ON -DWITH_BZIP2=OFF ../libsbml-experimental
 RUN         cd /tmp/projects/libsbml/build_experimental && make -j4 && make install
 RUN         echo "/usr/local/libsbml/lib/python2.7/site-packages/libsbml" | tee /usr/local/lib/python2.7/dist-packages/libsbml.pth
@@ -39,6 +39,7 @@ RUN         apt-get install -y python-numpy swig llvm-3.2
 RUN         mkdir -p /tmp/rr/build/thirdparty
 RUN         mkdir -p /tmp/rr/build/all
 RUN         cd /tmp/rr && git clone https://github.com/AndySomogyi/roadrunner.git
+RUN         cd /tmp/rr/roadrunner && git checkout 46e975680fffa96977aa8f1c4c78a918be785cab
 RUN         cd /tmp/rr/build/thirdparty && cmake ../../roadrunner/third_party/ -DCMAKE_INSTALL_PREFIX=/usr/local/roadrunner/thirdparty
 RUN         cd /tmp/rr/build/thirdparty && make -j4 && make install
 RUN         cd /tmp/rr/build/all && cmake -DBUILD_PYTHON=ON -DBUILD_LLVM=ON -DBUILD_TESTS=ON -DCMAKE_INSTALL_PREFIX=/usr/local/roadrunner -DTHIRD_PARTY_INSTALL_FOLDER=/usr/local/roadrunner/thirdparty -DLLVM_CONFIG_EXECUTABLE=/usr/bin/llvm-config-3.2 ../../roadrunner
@@ -52,6 +53,7 @@ RUN         ldconfig
 # Install SBML2MATLAB
 RUN         mkdir -p /tmp/projects
 RUN         cd /tmp/projects && git clone https://github.com/stanley-gu/sbml2matlab.git
+RUN         cd /tmp/projects/sbml2matlab && git checkout 5ddd62d02e1cbec84f6b0e3cf4bd3daae41a900c
 RUN         mkdir -p /tmp/projects/sbml2matlab/build
 RUN         cd /tmp/projects/sbml2matlab/build && cmake .. -DLIBSBML_INCLUDE_DIR=/usr/local/libsbml/include -DCMAKE_INSTALL_PREFIX=/usr/local/sbml2matlab -DWITH_LIBSBML_LIBXML=ON -DLIBSBML_LIBRARY=/usr/local/libsbml/lib/libsbml-static.a -DWITH_PYTHON=ON -DCMAKE_CXX_FLAGS='-fPIC'
 RUN         cd /tmp/projects/sbml2matlab/build && make -j4 && make install
@@ -61,7 +63,7 @@ RUN         ldconfig
 
 # Install antimony
 RUN         apt-get install -y -q wget
-RUN         cd /tmp/projects && svn checkout svn://svn.code.sf.net/p/antimony/code antimony-code
+RUN         cd /tmp/projects && svn checkout svn://svn.code.sf.net/p/antimony/code@3523 antimony-code
 RUN         mkdir -p /tmp/projects/antimony-code/antimony/build
 RUN         cd /tmp/projects/antimony-code/antimony/build && cmake .. -DWITH_PYTHON=ON -DLIBSBML_INCLUDE_DIR=/usr/local/libsbml/include -DCMAKE_INSTALL_PREFIX=/usr/local/antimony -DLIBSBML_LIBRARY=/usr/local/libsbml/lib/libsbml.so -DWITH_QTANTIMONY=OFF -DWITH_CELLML=OFF -DWITH_COMP_SBML=OFF
 RUN         cd /tmp/projects/antimony-code/antimony/build && make -j4
