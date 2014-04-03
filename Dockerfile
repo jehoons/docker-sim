@@ -22,7 +22,7 @@ RUN         apt-get -y -q install libzmq3 libzmq3-dev
 
 # Install ZeroRPC
 RUN         apt-get install -y libevent-dev python-pip python-gevent msgpack-python
-RUN         pip install zerorpc
+RUN         pip install zerorpc==0.4.4
 
 # Install libSBML
 RUN         apt-get install -y -q libxml2 libxml2-dev libtool cmake swig libbz2-dev subversion
@@ -63,7 +63,7 @@ RUN         ldconfig
 
 # Install antimony
 RUN         apt-get install -y -q wget
-RUN         cd /tmp/projects && svn checkout svn://svn.code.sf.net/p/antimony/code@3523 antimony-code
+RUN         cd /tmp/projects && svn checkout https://svn.code.sf.net/p/antimony/code@3523 antimony-code
 RUN         mkdir -p /tmp/projects/antimony-code/antimony/build
 RUN         cd /tmp/projects/antimony-code/antimony/build && cmake .. -DWITH_PYTHON=ON -DLIBSBML_INCLUDE_DIR=/usr/local/libsbml/include -DCMAKE_INSTALL_PREFIX=/usr/local/antimony -DLIBSBML_LIBRARY=/usr/local/libsbml/lib/libsbml.so -DWITH_QTANTIMONY=OFF -DWITH_CELLML=OFF -DWITH_COMP_SBML=OFF
 RUN         cd /tmp/projects/antimony-code/antimony/build && make -j4
@@ -75,11 +75,11 @@ RUN         ldconfig
 
 # Install pysces
 RUN         apt-get install -y -q gfortran python-scipy
-RUN         pip install pysces
+RUN         pip install pysces==0.9.0
 
 # Install IPython
-RUN         apt-get install python-matplotlib
-RUN         pip install ipython pyzmq jinja2 tornado
+RUN         apt-get install -y -q python-matplotlib
+RUN         pip install ipython==2.0.0 pyzmq==14.1.1 jinja2==2.7.2 tornado==3.2
 
 # Clean up
 RUN rm -rf /tmp/projects /tmp/rr
