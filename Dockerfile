@@ -81,5 +81,10 @@ RUN         pip install pysces==0.9.0
 RUN         apt-get install -y -q python-matplotlib
 RUN         pip install ipython==2.0.0 pyzmq==14.1.1 jinja2==2.7.2 tornado==3.2
 
+# Install stats packages
+RUN         pip install pandas==0.13.1
+RUN         pip install patsy==0.2.1
+RUN         pip install statsmodels==0.5.0
+
 # Clean up
 RUN rm -rf /tmp/projects /tmp/rr
