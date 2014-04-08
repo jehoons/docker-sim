@@ -70,7 +70,7 @@ RUN         cd /tmp/projects/antimony-code/antimony/build && make -j4
 RUN         cd /tmp/projects/antimony-code/antimony/build && make install
 RUN         mv /python2.7 /usr/local/antimony
 RUN         echo '/usr/local/antimony/python2.7/site-packages/antimony' | tee /usr/local/lib/python2.7/dist-packages/libantimony.pth
-RUN         echo '/usr/local/antimony/bin' | tee /etc/ld.so.conf.d/antimony.conf
+RUN         echo '/usr/local/antimony' | tee /etc/ld.so.conf.d/antimony.conf
 RUN         ldconfig
 
 # Install pysces
