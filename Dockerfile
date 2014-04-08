@@ -59,7 +59,7 @@ RUN         cd /tmp/projects/sbml2matlab/build && cmake .. -DLIBSBML_INCLUDE_DIR
 RUN         cd /tmp/projects/sbml2matlab/build && make -j4 && make install
 RUN         echo '/usr/local/sbml2matlab/lib/python2.7/site-packages' | tee /usr/local/lib/python2.7/dist-packages/sbml2matlab.pth
 RUN         echo '/usr/local/sbml2matlab' | tee /etc/ld.so.conf.d/sbml2matlab.conf
-RUN         mv /usr/local/sbml2matlab/lib/python/__init__.py /usr/local/sbml2matlab/lib/python2.7/site-packages/sbml2matlab
+RUN         mv /usr/local/sbml2matlab/lib/python/site-packages/__init__.py /usr/local/sbml2matlab/lib/python2.7/site-packages/sbml2matlab
 RUN         ldconfig
 
 # Install antimony
