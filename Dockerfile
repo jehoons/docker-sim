@@ -86,5 +86,9 @@ RUN         pip install pandas==0.13.1
 RUN         pip install patsy==0.2.1
 RUN         pip install statsmodels==0.5.0
 
+# Install tellurium
+RUN         git clone https://github.com/sys-bio/tellurium.git /usr/local/lib/python2.7/dist-packages/tellurium
+RUN         cd /usr/local/lib/python2.7/dist-packages/tellurium && git checkout 4021ecb0821332e1272cd2706e42cf52cda07001
+
 # Clean up
 RUN rm -rf /tmp/projects /tmp/rr
