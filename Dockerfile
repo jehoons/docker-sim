@@ -91,5 +91,8 @@ RUN         pip install statsmodels==0.5.0
 RUN         git clone https://github.com/sys-bio/tellurium.git /usr/local/lib/python2.7/dist-packages/tellurium
 RUN         cd /usr/local/lib/python2.7/dist-packages/tellurium && git checkout 4021ecb0821332e1272cd2706e42cf52cda07001
 
+# Other packages
+RUN         pip install stochpy==1.1.2 networkx==1.8.1
+
 # Clean up
 RUN rm -rf /tmp/projects /tmp/rr
