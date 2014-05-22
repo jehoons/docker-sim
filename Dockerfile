@@ -80,7 +80,7 @@ RUN         pip install pysces==0.9.0
 # Install IPython
 RUN         apt-get update -qq
 RUN         apt-get install -y -q python-matplotlib
-RUN         pip install ipython==2.0.0 pyzmq==14.1.1 jinja2==2.7.2 tornado==3.2
+RUN         pip install ipython==2.0.1 pyzmq==14.1.1 jinja2==2.7.2 tornado==3.2
 
 # Install stats packages
 RUN         pip install pandas==0.13.1
