@@ -89,7 +89,7 @@ RUN         pip install statsmodels==0.5.0
 
 # Install tellurium
 RUN         git clone https://github.com/sys-bio/tellurium.git /usr/local/lib/python2.7/dist-packages/tellurium
-RUN         cd /usr/local/lib/python2.7/dist-packages/tellurium && git checkout 4021ecb0821332e1272cd2706e42cf52cda07001
+RUN         cd /usr/local/lib/python2.7/dist-packages/tellurium && git checkout 943fa4adfc4c7f0e8f58c75fe4bf1c05d4e04bb1
 
 # Install libsedml
 RUN         mkdir -p /tmp/projects
