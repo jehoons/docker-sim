@@ -42,11 +42,10 @@ RUN         cd /tmp/rr && git clone https://github.com/AndySomogyi/roadrunner.gi
 RUN         cd /tmp/rr/roadrunner && git checkout 46e975680fffa96977aa8f1c4c78a918be785cab
 RUN         cd /tmp/rr/build/thirdparty && cmake ../../roadrunner/third_party/ -DCMAKE_INSTALL_PREFIX=/usr/local/roadrunner/thirdparty
 RUN         cd /tmp/rr/build/thirdparty && make -j4 && make install
-RUN         cd /tmp/rr/build/all && cmake -DBUILD_PYTHON=ON -DBUILD_LLVM=ON -DBUILD_TESTS=ON -DCMAKE_INSTALL_PREFIX=/usr/local/roadrunner -DTHIRD_PARTY_INSTALL_FOLDER=/usr/local/roadrunner/thirdparty -DLLVM_CONFIG_EXECUTABLE=/usr/bin/llvm-config-3.2 ../../roadrunner
+RUN         cd /tmp/rr/build/all && cmake -DBUILD_PYTHON=ON -DBUILD_LLVM=ON -DBUILD_TESTS=ON -DCMAKE_INSTALL_PREFIX=/usr/local/roadrunner -DTHIRD_PARTY_INSTALL_FOLDER=/usr/local/roadrunner/thirdparty -DLLVM_CONFIG_EXECUTABLE=/usr/bin/llvm-config-3.2 -DBUILD_TEST_TOOLS=ON ../../roadrunner
 RUN         cd /tmp/rr/build/all && make -j4 && make install
 # Adding to python search path
-RUN         echo "/usr/local/roadrunner/site-packages/roadrunner" | tee /usr/local/lib/python2.7/dist-packages/rr.pth
-RUN         echo "/usr/local/roadrunner/site-packages/roadrunner/testing" | tee -a /usr/local/lib/python2.7/dist-packages/rr.pth
+RUN         echo "/usr/local/roadrunner/site-packages" | tee /usr/local/lib/python2.7/dist-packages/rr.pth
 RUN         echo "/usr/local/roadrunner/lib" | tee /etc/ld.so.conf.d/roadrunner.conf
 RUN         ldconfig
 
@@ -79,6 +78,7 @@ RUN         apt-get install -y -q gfortran python-scipy
 RUN         pip install pysces==0.9.0
 
 # Install IPython
+RUN         apt-get update -qq
 RUN         apt-get install -y -q python-matplotlib
 RUN         pip install ipython==2.0.0 pyzmq==14.1.1 jinja2==2.7.2 tornado==3.2
 
@@ -91,6 +91,22 @@ RUN         pip install statsmodels==0.5.0
 RUN         git clone https://github.com/sys-bio/tellurium.git /usr/local/lib/python2.7/dist-packages/tellurium
 RUN         cd /usr/local/lib/python2.7/dist-packages/tellurium && git checkout 4021ecb0821332e1272cd2706e42cf52cda07001
 
+# Install libsedml
+RUN         mkdir -p /tmp/projects
+RUN         cd /tmp/projects && git clone https://github.com/fbergmann/libSEDML.git libsedml
+RUN         cd /tmp/projects/libsedml && git checkout 7c33ef90866e07981021eabcd985b0aa19b513cf
+RUN         mkdir -p /tmp/projects/libsedml/build
+RUN         cd /tmp/projects/libsedml/build && cmake .. -DCMAKE_INSTALL_PREFIX=/usr/local/libsedml -DLIBSBML_LIBRARY=/usr/local/libsbml/lib/libsbml-static.a -DLIBSBML_INCLUDE_DIR=/usr/local/libsbml/include -DEXTRA_LIBS=xml2 -DWITH_PYTHON=ON
+RUN         cd /tmp/projects/libsedml/build && make -j4
+RUN         cd /tmp/projects/libsedml/build && make install
+RUN         echo '/usr/local/libsedml/lib/python2.7/site-packages/libsedml' | tee /usr/local/lib/python2.7/dist-packages/libsedml.pth
+RUN         echo '/usr/local/libsedml/lib' | tee /etc/ld.so.conf.d/libsedml.conf
+RUN         ldconfig
+
+# Install sedml2py
+RUN         cd /usr/local && git clone https://github.com/sys-bio/sedml2py.git
+RUN         cd /usr/local/sedml2py && git checkout 74d86ec0bd2ae8644ea383f60d551eae4e4f0adf
+RUN         echo "/usr/local/sedml2py" | tee /usr/local/lib/python2.7/dist-packages/sedml2py.pth
 # Other packages
 RUN         pip install stochpy==1.1.2 networkx==1.8.1
 
