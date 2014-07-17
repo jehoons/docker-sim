@@ -1,6 +1,6 @@
 # Image for RoadRunner Simulator
 #
-# VERSION               0.0.1
+# VERSION               0.0.2
 
 FROM        ubuntu
 MAINTAINER  Stanley Gu <stanleygu@gmail.com>
@@ -35,14 +35,15 @@ RUN         echo '/usr/local/libsbml/lib' | tee /etc/ld.so.conf.d/libsbml.conf
 RUN         ldconfig
  
 # Install RoadRunner
-RUN         apt-get install -y python-numpy swig llvm-3.2
+RUN         apt-get update -qq
+RUN         apt-get install -y python-numpy swig llvm-3.4-dev libncurses5-dev
 RUN         mkdir -p /tmp/rr/build/thirdparty
 RUN         mkdir -p /tmp/rr/build/all
-RUN         cd /tmp/rr && git clone https://github.com/AndySomogyi/roadrunner.git
-RUN         cd /tmp/rr/roadrunner && git checkout 46e975680fffa96977aa8f1c4c78a918be785cab
+RUN         cd /tmp/rr && git clone https://github.com/sys-bio/roadrunner.git
+RUN         cd /tmp/rr/roadrunner && git checkout tags/v1.2.2
 RUN         cd /tmp/rr/build/thirdparty && cmake ../../roadrunner/third_party/ -DCMAKE_INSTALL_PREFIX=/usr/local/roadrunner/thirdparty
 RUN         cd /tmp/rr/build/thirdparty && make -j4 && make install
-RUN         cd /tmp/rr/build/all && cmake -DBUILD_PYTHON=ON -DBUILD_LLVM=ON -DBUILD_TESTS=ON -DCMAKE_INSTALL_PREFIX=/usr/local/roadrunner -DTHIRD_PARTY_INSTALL_FOLDER=/usr/local/roadrunner/thirdparty -DLLVM_CONFIG_EXECUTABLE=/usr/bin/llvm-config-3.2 -DBUILD_TEST_TOOLS=ON ../../roadrunner
+RUN         cd /tmp/rr/build/all && cmake -DBUILD_PYTHON=ON -DBUILD_LLVM=ON -DBUILD_TESTS=ON -DCMAKE_INSTALL_PREFIX=/usr/local/roadrunner -DTHIRD_PARTY_INSTALL_FOLDER=/usr/local/roadrunner/thirdparty -DLLVM_CONFIG_EXECUTABLE=/usr/bin/llvm-config-3.4 -DBUILD_TEST_TOOLS=ON ../../roadrunner
 RUN         cd /tmp/rr/build/all && make -j4 && make install
 # Adding to python search path
 RUN         echo "/usr/local/roadrunner/site-packages" | tee /usr/local/lib/python2.7/dist-packages/rr.pth
@@ -80,7 +81,7 @@ RUN         pip install pysces==0.9.0
 # Install IPython
 RUN         apt-get update -qq
 RUN         apt-get install -y -q python-matplotlib
-RUN         pip install ipython==2.1.0 pyzmq==14.1.1 jinja2==2.7.2 tornado==3.2
+RUN         pip install ipython==2.1.0 pyzmq==14.1.1 jinja2==2.7.2 tornado==3.2 pygments==1.6
 
 # Install stats packages
 RUN         pip install pandas==0.13.1
@@ -107,6 +108,12 @@ RUN         ldconfig
 RUN         cd /usr/local && git clone https://github.com/sys-bio/sedml2py.git
 RUN         cd /usr/local/sedml2py && git checkout 74d86ec0bd2ae8644ea383f60d551eae4e4f0adf
 RUN         echo "/usr/local/sedml2py" | tee /usr/local/lib/python2.7/dist-packages/sedml2py.pth
+
+# Install ipython notebook modules
+RUN         cd /usr/local && git clone https://github.com/stanleygu/ipython-notebook-modules.git notebooktools
+RUN         cd /usr/local/notebooktools && git checkout tags/v0.0.2
+RUN         echo '/usr/local/notebooktools' | tee /usr/local/lib/python2.7/dist-packages/notebooktools.pth
+
 # Other packages
 RUN         pip install stochpy==1.1.2 networkx==1.8.1
 
