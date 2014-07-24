@@ -52,8 +52,9 @@ RUN         ldconfig
 
 # Install SBML2MATLAB
 RUN         mkdir -p /tmp/projects
+RUN         cd /tmp/projects
 RUN         cd /tmp/projects && git clone https://github.com/stanley-gu/sbml2matlab.git
-RUN         cd /tmp/projects/sbml2matlab && git checkout 5ddd62d02e1cbec84f6b0e3cf4bd3daae41a900c
+RUN         cd /tmp/projects/sbml2matlab && git checkout 5e79fd959757ea53e9e548c605e7fd1dbddc7af8
 RUN         mkdir -p /tmp/projects/sbml2matlab/build
 RUN         cd /tmp/projects/sbml2matlab/build && cmake .. -DLIBSBML_INCLUDE_DIR=/usr/local/libsbml/include -DCMAKE_INSTALL_PREFIX=/usr/local/sbml2matlab -DWITH_LIBSBML_LIBXML=ON -DLIBSBML_LIBRARY=/usr/local/libsbml/lib/libsbml-static.a -DWITH_PYTHON=ON -DCMAKE_CXX_FLAGS='-fPIC'
 RUN         cd /tmp/projects/sbml2matlab/build && make -j4 && make install
@@ -88,10 +89,6 @@ RUN         pip install pandas==0.13.1
 RUN         pip install patsy==0.2.1
 RUN         pip install statsmodels==0.5.0
 
-# Install tellurium
-RUN         git clone https://github.com/sys-bio/tellurium.git /usr/local/lib/python2.7/dist-packages/tellurium
-RUN         cd /usr/local/lib/python2.7/dist-packages/tellurium && git checkout 943fa4adfc4c7f0e8f58c75fe4bf1c05d4e04bb1
-
 # Install libsedml
 RUN         mkdir -p /tmp/projects
 RUN         cd /tmp/projects && git clone https://github.com/fbergmann/libSEDML.git libsedml
@@ -113,6 +110,11 @@ RUN         echo "/usr/local/sedml2py" | tee /usr/local/lib/python2.7/dist-packa
 RUN         cd /usr/local && git clone https://github.com/stanleygu/ipython-notebook-modules.git notebooktools
 RUN         cd /usr/local/notebooktools && git checkout tags/v0.0.2
 RUN         echo '/usr/local/notebooktools' | tee /usr/local/lib/python2.7/dist-packages/notebooktools.pth
+
+# Install tellurium
+RUN         git clone https://github.com/sys-bio/tellurium.git /usr/local/lib/python2.7/dist-packages/tellurium
+RUN         cd /usr/local/lib/python2.7/dist-packages/tellurium && git checkout a4b25cdc173128ad2793c83d35043140b74e5a1f
+
 
 # Other packages
 RUN         pip install stochpy==1.1.2 networkx==1.8.1
