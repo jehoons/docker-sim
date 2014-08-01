@@ -107,7 +107,7 @@ RUN         cd /usr/local/sedml2py && git checkout 74d86ec0bd2ae8644ea383f60d551
 RUN         echo "/usr/local/sedml2py" | tee /usr/local/lib/python2.7/dist-packages/sedml2py.pth
 
 # Install ipython notebook modules
-RUN         cd /usr/local && git clone https://github.com/stanleygu/ipython-notebook-modules.git notebooktools
+RUN         cd /usr/local && git clone https://github.com/stanleygu/ipython-notebook-tools.git notebooktools
 RUN         cd /usr/local/notebooktools && git checkout tags/v0.0.2
 RUN         echo '/usr/local/notebooktools' | tee /usr/local/lib/python2.7/dist-packages/notebooktools.pth
 
