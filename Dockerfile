@@ -7,7 +7,7 @@ MAINTAINER  Stanley Gu <stanleygu@gmail.com>
 RUN         apt-get update -qq
 
 # Installing base level packages
-RUN         apt-get install -y -q python-software-properties
+RUN         apt-get install -y -q python-software-properties software-properties-common
 RUN         apt-get install -y -q python-dev
 RUN         apt-get install -y -q python-pip
 RUN         apt-get install -y -q build-essential
