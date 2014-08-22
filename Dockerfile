@@ -1,13 +1,13 @@
 # Image for RoadRunner Simulator
 #
-# VERSION               0.0.3
+# VERSION               0.0.4
 
 FROM        ubuntu
 MAINTAINER  Stanley Gu <stanleygu@gmail.com>
-RUN         apt-get update -qq
 
 # Installing base level packages
-RUN         apt-get install -y -q python-software-properties software-properties-common
+RUN         apt-get update -qq
+RUN         apt-get install -y -q python-software-properties
 RUN         apt-get install -y -q python-dev
 RUN         apt-get install -y -q python-pip
 RUN         apt-get install -y -q build-essential
@@ -15,13 +15,12 @@ RUN         apt-get install -y -q git
 
 # Adding PPAs
 RUN         add-apt-repository -y ppa:chris-lea/zeromq
-RUN         apt-get update -qq
 
 # Install ZMQ
+RUN         apt-get update -qq
 RUN         apt-get -y -q install libzmq3 libzmq3-dev
 
 # add a user
-RUN         apt-get update -qq
 RUN         useradd -D --shell=/bin/bash
 RUN         useradd -m user
 RUN         echo "user:sysbio" | chpasswd
@@ -35,6 +34,7 @@ RUN         apt-get install -y libevent-dev python-pip python-gevent msgpack-pyt
 RUN         su user -c "source /usr/local/bin/virtualenvwrapper.sh; workon localpy; pip install zerorpc==0.4.4"
 
 # Install libSBML
+RUN         apt-get update -qq
 RUN         apt-get install -y -q libxml2 libxml2-dev libtool cmake swig libbz2-dev subversion
 RUN         mkdir -p /tmp/projects/libsbml/build_experimental
 RUN         cd /tmp/projects/libsbml && svn co https://svn.code.sf.net/p/sbml/code/branches/libsbml-experimental@20107
@@ -45,7 +45,6 @@ RUN         echo '/usr/local/libsbml/lib' | tee /etc/ld.so.conf.d/libsbml.conf
 RUN         ldconfig
  
 # Install RoadRunner
-RUN         apt-get update -qq
 RUN         apt-get install -y python-numpy swig llvm-3.4-dev libncurses5-dev
 RUN         mkdir -p /tmp/rr/build/thirdparty
 RUN         mkdir -p /tmp/rr/build/all
@@ -90,9 +89,8 @@ RUN         apt-get install -y -q gfortran python-scipy
 RUN         su user -c "source /usr/local/bin/virtualenvwrapper.sh; workon localpy; pip install pysces==0.9.0"
 
 # Install IPython
-RUN         apt-get update -qq
 RUN         apt-get install -y -q python-matplotlib
-RUN         su user -c "source /usr/local/bin/virtualenvwrapper.sh; workon localpy; pip install ipython==2.2.0 jinja2==2.7.2 tornado==3.2 pygments==1.6"
+RUN         su user -c "source /usr/local/bin/virtualenvwrapper.sh; workon localpy; pip install ipython==2.1.0 jinja2==2.7.2 tornado==3.2 pygments==1.6"
 RUN         pip install pyzmq==14.1.1
 
 # Install stats packages
@@ -132,4 +130,3 @@ RUN         su user -c "source /usr/local/bin/virtualenvwrapper.sh; workon local
 
 # Clean up
 RUN rm -rf /tmp/projects /tmp/rr
-RUN         pip install 
