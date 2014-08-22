@@ -1,6 +1,6 @@
 # Image for RoadRunner Simulator
 #
-# VERSION               0.0.4
+# VERSION               0.0.5
 
 FROM        ubuntu:12.04
 MAINTAINER  Stanley Gu <stanleygu@gmail.com>
