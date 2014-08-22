@@ -2,7 +2,7 @@
 #
 # VERSION               0.0.4
 
-FROM        ubuntu
+FROM        ubuntu:12.04
 MAINTAINER  Stanley Gu <stanleygu@gmail.com>
 
 # Installing base level packages
