@@ -1,6 +1,6 @@
 # Image for RoadRunner Simulator
 #
-# VERSION               0.0.6
+# VERSION               0.0.7
 
 FROM        ubuntu:12.04
 MAINTAINER  Stanley Gu <stanleygu@gmail.com>
@@ -39,7 +39,7 @@ RUN         apt-get install -y python-numpy swig llvm-3.4-dev libncurses5-dev &&
             mkdir -p /tmp/rr/build/thirdparty && \
             mkdir -p /tmp/rr/build/all && \
             cd /tmp/rr && git clone https://github.com/sys-bio/roadrunner.git && \
-            cd /tmp/rr/roadrunner && git checkout tags/v1.2.5 && \
+            cd /tmp/rr/roadrunner && git checkout tags/v1.2.6 && \
             cd /tmp/rr/build/thirdparty && cmake ../../roadrunner/third_party/ -DCMAKE_INSTALL_PREFIX=/usr/local/roadrunner/thirdparty && \
             cd /tmp/rr/build/thirdparty && make -j4 && make install && \
             cd /tmp/rr/build/all && cmake -DBUILD_PYTHON=ON -DBUILD_LLVM=ON -DBUILD_TESTS=ON -DCMAKE_INSTALL_PREFIX=/usr/local/roadrunner -DTHIRD_PARTY_INSTALL_FOLDER=/usr/local/roadrunner/thirdparty -DLLVM_CONFIG_EXECUTABLE=/usr/bin/llvm-config-3.4 -DBUILD_TEST_TOOLS=ON ../../roadrunner && \
@@ -112,7 +112,7 @@ RUN         cd /usr/local && git clone https://github.com/stanleygu/ipython-note
 
 # Install tellurium
 RUN         git clone https://github.com/sys-bio/tellurium.git /home/user/.virtualenvs/localpy/lib/python2.7/site-packages/tellurium && \
-            cd /home/user/.virtualenvs/localpy/lib/python2.7/site-packages/tellurium && git checkout 6bf572992430cba479c23a58d6d3b915f5439be9
+            cd /home/user/.virtualenvs/localpy/lib/python2.7/site-packages/tellurium && git checkout a2cd4fd494281a4c85eb95da463dabc53f9a80f8
 
 
 # Other packages
