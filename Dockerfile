@@ -79,7 +79,8 @@ RUN         apt-get install -y -q gfortran python-scipy && \
             su user -c "source /usr/local/bin/virtualenvwrapper.sh; workon localpy; pip install pysces==0.9.0"
 
 # Install IPython
-RUN         apt-get install -y -q python-matplotlib && \
+RUN         apt-get update -qq &&\
+            apt-get install -y -q python-matplotlib && \
             su user -c "source /usr/local/bin/virtualenvwrapper.sh; workon localpy; pip install ipython==2.1.0 jinja2==2.7.2 tornado==3.2 pygments==1.6" && \
             pip install pyzmq==14.1.1
 
