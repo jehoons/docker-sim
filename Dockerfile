@@ -112,8 +112,8 @@ RUN         git clone https://github.com/sys-bio/tellurium.git /home/user/.virtu
 
 
 # Other packages
-RUN         su user -c "source /usr/local/bin/virtualenvwrapper.sh; workon localpy; pip install stochpy==1.1.2 networkx==1.8.1" &&\
-            su user -c "source /usr/local/bin/virtualenvwrapper.sh; workon localpy; pip install notebooktools==0.0.10 simworker==0.0.7 celery=3.1.15 redis==2.10.3"
+RUN         su user -c "source /usr/local/bin/virtualenvwrapper.sh; workon localpy; pip install stochpy==1.1.2 networkx==1.8.1" && \
+            su user -c "source /usr/local/bin/virtualenvwrapper.sh; workon localpy; pip install notebooktools==0.0.10 simworker==0.0.7 celery==3.1.15 redis==2.10.3"
 
 # Clean up
 RUN rm -rf /tmp/projects /tmp/rr
