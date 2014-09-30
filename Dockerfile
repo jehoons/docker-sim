@@ -1,6 +1,6 @@
 # Image for RoadRunner Simulator
 #
-# VERSION               0.0.7
+# VERSION               0.0.8
 
 FROM        ubuntu:12.04
 MAINTAINER  Stanley Gu <stanleygu@gmail.com>
@@ -106,18 +106,14 @@ RUN         cd /usr/local && git clone https://github.com/sys-bio/sedml2py.git &
             cd /usr/local/sedml2py && git checkout 74d86ec0bd2ae8644ea383f60d551eae4e4f0adf && \
             echo "/usr/local/sedml2py" | tee /home/user/.virtualenvs/localpy/lib/python2.7/site-packages/sedml2py.pth
 
-# Install ipython notebook modules
-RUN         cd /usr/local && git clone https://github.com/stanleygu/ipython-notebook-tools.git notebooktools && \
-            cd /usr/local/notebooktools && git checkout tags/v0.0.3 && \
-            echo '/usr/local/notebooktools' | tee /home/user/.virtualenvs/localpy/lib/python2.7/site-packages/notebooktools.pth
-
 # Install tellurium
 RUN         git clone https://github.com/sys-bio/tellurium.git /home/user/.virtualenvs/localpy/lib/python2.7/site-packages/tellurium && \
             cd /home/user/.virtualenvs/localpy/lib/python2.7/site-packages/tellurium && git checkout a2cd4fd494281a4c85eb95da463dabc53f9a80f8
 
 
 # Other packages
-RUN         su user -c "source /usr/local/bin/virtualenvwrapper.sh; workon localpy; pip install stochpy==1.1.2 networkx==1.8.1"
+RUN         su user -c "source /usr/local/bin/virtualenvwrapper.sh; workon localpy; pip install stochpy==1.1.2 networkx==1.8.1" &&\
+            su user -c "source /usr/local/bin/virtualenvwrapper.sh; workon localpy; pip install notebooktools==0.0.10 simworker==0.0.7 celery=3.1.15 redis==2.10.3"
 
 # Clean up
 RUN rm -rf /tmp/projects /tmp/rr
