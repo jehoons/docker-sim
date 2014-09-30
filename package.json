@@ -1,6 +1,6 @@
 {
   "name": "docker-sim",
-  "version": "0.0.6",
+  "version": "0.0.8",
   "description": "Docker container for a roadrunner simulation service",
   "main": "Dockerfile",
   "scripts": {
