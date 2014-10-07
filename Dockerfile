@@ -1,6 +1,6 @@
 # Image for RoadRunner Simulator
 #
-# VERSION               0.0.8
+# VERSION               0.0.9
 
 FROM        ubuntu:12.04
 MAINTAINER  Stanley Gu <stanleygu@gmail.com>
@@ -113,7 +113,7 @@ RUN         git clone https://github.com/sys-bio/tellurium.git /home/user/.virtu
 
 # Other packages
 RUN         su user -c "source /usr/local/bin/virtualenvwrapper.sh; workon localpy; pip install stochpy==1.1.2 networkx==1.8.1" && \
-            su user -c "source /usr/local/bin/virtualenvwrapper.sh; workon localpy; pip install notebooktools==0.0.10 simworker==0.0.7 celery==3.1.15 redis==2.10.3"
+            su user -c "source /usr/local/bin/virtualenvwrapper.sh; workon localpy; pip install notebooktools==0.1.0 simworker==0.0.7 celery==3.1.15 redis==2.10.3 bioservices==1.3.2"
 
 # Clean up
 RUN rm -rf /tmp/projects /tmp/rr
