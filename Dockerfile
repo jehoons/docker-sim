@@ -1,6 +1,6 @@
 # Image for RoadRunner Simulator
 #
-# VERSION               0.0.9
+# VERSION               20141007
 
 FROM        ubuntu:12.04
 MAINTAINER  Stanley Gu <stanleygu@gmail.com>
@@ -15,8 +15,8 @@ RUN         add-apt-repository -y ppa:chris-lea/zeromq
 RUN         apt-get update -qq && apt-get -y -q install libzmq3 libzmq3-dev libevent-dev python-pip python-gevent msgpack-python
 
 # add a user
-RUN         useradd -D --shell=/bin/bash && \
-            useradd -m user && \
+RUN         apt-get update -qq
+RUN         useradd --shell=/bin/bash --create-home --home-dir=/home/user user && \
             echo "user:sysbio" | chpasswd && \
             adduser user sudo
 
