@@ -107,8 +107,8 @@ RUN         pip install pandas==0.13.1 patsy==0.2.1 &&\
 
 # Install IPython
 RUN         apt-get update -qq &&\
-            apt-get install -y -q python-matplotlib && \
-            pip install ipython==2.1.0 jinja2==2.7.2 tornado==3.2 pygments==1.6 pyzmq==14.1.1
+            apt-get install -y -q libfreetype6-dev libpng-dev && \
+            pip install ipython==2.1.0 jinja2==2.7.2 tornado==3.2 pygments==1.6 pyzmq==14.1.1 matplotlib==1.4.0
 
 # Other packages
 RUN         pip install stochpy==1.1.2 networkx==1.8.1 zerorpc==0.4.4 notebooktools==0.1.0 simworker==0.0.8 celery==3.1.15 redis==2.10.3 bioservices==1.3.2
