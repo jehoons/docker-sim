@@ -6,13 +6,14 @@ FROM        ubuntu:12.04
 MAINTAINER  Stanley Gu <stanleygu@gmail.com>
 
 # Installing base level packages
-RUN         apt-get update -qq && apt-get install -y -q python-software-properties python-dev python-pip build-essential git
+RUN         apt-get update -qq && apt-get install -y -q python-software-properties python-dev python-pip build-essential git && \
+            pip install --upgrade pip
 
 # Adding PPAs
 RUN         add-apt-repository -y ppa:chris-lea/zeromq
 
 # Install ZMQ
-RUN         apt-get update -qq && apt-get -y -q install libzmq3 libzmq3-dev libevent-dev python-pip python-gevent msgpack-python
+RUN         apt-get update -qq && apt-get -y -q install libzmq3 libzmq3-dev libevent-dev python-gevent msgpack-python
 
 # add a user
 RUN         apt-get update -qq
@@ -89,10 +90,6 @@ RUN         cd /usr/local && git clone https://github.com/sys-bio/sedml2py.git &
             cd /usr/local/sedml2py && git checkout 74d86ec0bd2ae8644ea383f60d551eae4e4f0adf && \
             echo "/usr/local/sedml2py" | tee /usr/local/lib/python2.7/dist-packages/sedml2py.pth
 
-# Install tellurium
-RUN         git clone https://github.com/sys-bio/tellurium.git /usr/local/lib/python2.7/dist-packages/tellurium && \
-            cd /usr/local/lib/python2.7/dist-packages/tellurium && git checkout a2cd4fd494281a4c85eb95da463dabc53f9a80f8
-
 # PIP
 RUN         pip install virtualenv virtualenvwrapper && \
             su user -c "source /usr/local/bin/virtualenvwrapper.sh; mkvirtualenv --system-site-packages localpy"
@@ -108,11 +105,14 @@ RUN         pip install pandas==0.13.1 patsy==0.2.1 &&\
 # Install IPython
 RUN         easy_install -U distribute
 RUN         apt-get update -qq &&\
-            apt-get install -y -q libfreetype6-dev libpng-dev && \
-            pip install ipython==2.1.0 jinja2==2.7.2 tornado==3.2 pygments==1.6 pyzmq==14.1.1 matplotlib==1.4.0 brewer2mpl==1.4.1 prettyplotlib==0.1.7 mpld3==0.2
+            apt-get install -y -q libfreetype6-dev libpng-dev python-pygraphviz && \
+            pip install ipython[notebook]==2.1.0 matplotlib==1.4.0 brewer2mpl==1.4.1 prettyplotlib==0.1.7 mpld3==0.2
 
 # Other packages
-RUN         pip install stochpy==1.1.2 networkx==1.8.1 zerorpc==0.4.4 notebooktools==0.1.0 simworker==0.0.8 celery==3.1.15 redis==2.10.3 bioservices==1.3.2
+RUN         pip install stochpy==1.1.2 networkx==1.8.1 zerorpc==0.4.4 notebooktools==0.3.1 simworker==0.0.8 celery==3.1.15 redis==2.10.3 bioservices==1.3.2
+
+# Install tellurium
+RUN         pip install git+https://github.com/stanleygu/tellurium.git
 
 # Clean up
 RUN rm -rf /tmp/projects /tmp/rr
