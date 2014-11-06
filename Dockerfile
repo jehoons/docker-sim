@@ -112,7 +112,7 @@ RUN         apt-get update -qq &&\
 RUN         pip install stochpy==1.1.2 networkx==1.8.1 zerorpc==0.4.4 notebooktools==0.3.1 simworker==0.0.8 celery==3.1.15 redis==2.10.3 bioservices==1.3.2
 
 # Install tellurium
-RUN         pip install git+https://github.com/stanleygu/tellurium.git
+RUN         pip install --upgrade git+https://github.com/stanleygu/tellurium.git
 
 # Clean up
 RUN rm -rf /tmp/projects /tmp/rr
