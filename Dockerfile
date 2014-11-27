@@ -86,8 +86,8 @@ RUN         mkdir -p /tmp/projects && \
             ldconfig
 
 # Install sedml2py
-RUN         cd /usr/local && git clone https://github.com/sys-bio/sedml2py.git && \
-            cd /usr/local/sedml2py && git checkout 74d86ec0bd2ae8644ea383f60d551eae4e4f0adf && \
+RUN         cd /usr/local && git clone https://github.com/kirichoi/sedml2py.git && \
+            cd /usr/local/sedml2py && git checkout b9d7fd4ed17fbab18e887f07b179712dbbd8fd9a && \
             echo "/usr/local/sedml2py" | tee /usr/local/lib/python2.7/dist-packages/sedml2py.pth
 
 # PIP
