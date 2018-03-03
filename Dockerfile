@@ -13,10 +13,8 @@ RUN   apt-get update -qq && apt-get install -y -q python-software-properties \
       python-pip \
       build-essential \
       git
-# Adding PPAs
-# RUN   add-apt-repository -y ppa:chris-lea/zeromq
 
-##############
+################
 ## Install ZMQ
 # RUN   apt-get update -qq && apt-get -y -q install libzmq3 libzmq3-dev 
 # Install dependency
@@ -33,10 +31,14 @@ RUN   cd tmp/zeromq-4.2.2 && ./configure && make install
 # Install zeromq driver on linux
 RUN   ldconfig
 
+# RUN apt-get update \
+#       && apt-get install -y python3-pip python3-dev \
+#       && cd /usr/local/bin \
+#       && ln -s /usr/bin/python3 python \
+#       && pip3 install --upgrade pip
+ENV PYTHON_VER=python2.7
 
-# RUN   cd temp/libzmq && ./autogen.sh && ./configure && make -j 4
-# RUN   cd temp/libzmq && make check && make install && sudo ldconfig
-RUN   apt-get update && apt-get -y install libevent-dev python-gevent msgpack-python
+RUN   apt-get update && apt-get -y install libevent-dev python-gevent msgpack-python libtool-bin
 
 # # add a user
 # RUN   apt-get update -qq
@@ -44,18 +46,40 @@ RUN   apt-get update && apt-get -y install libevent-dev python-gevent msgpack-py
 #       echo "user:sysbio" | chpasswd && \
 #       adduser user sudo
 
+RUN   apt-get install -y vim
+
 #################
 # Install libSBML
-RUN   apt-get install -y -q libxml2 libxml2-dev libtool cmake swig libbz2-dev subversion
 ENV   libSBML_5=libSBML-5.15.2-Source
+
+RUN   apt-get install -y -q libxml2 libxml2-dev libtool cmake swig libbz2-dev subversion
+
 RUN   mkdir -p tmp/libsbml && cd tmp/libsbml && \
       wget https://ndownloader.figshare.com/files/10639657 -O ${libSBML_5}.tar.gz && \
       tar xvfz ${libSBML_5}.tar.gz && cd ${libSBML_5}
 
 RUN   cd tmp/libsbml/${libSBML_5} && ./configure --prefix=/usr/local/libsbml \
-           --enable-layout=no --enable-render=no --with-python=yes --with-bzip2=no 
+           --enable-layout=no --enable-render=no --with-python=yes --with-bzip2=no
 
-RUN   cd tmp/libsbml/${libSBML_5} && make -j6 && make install
+RUN   cd tmp/libsbml/${libSBML_5} && make -j60
+
+RUN   mkdir -p /usr/local/libsbml/lib/${PYTHON_VER}/site-packages/
+
+ENV   PYTHONPATH=/usr/local/libsbml/lib/${PYTHON_VER}/site-packages/
+
+RUN   echo "/usr/local/libsbml/lib/${PYTHON_VER}/site-packages/libsbml" | tee /usr/local/lib/${PYTHON_VER}/dist-packages/libsbml.pth && \
+      echo '/usr/local/libsbml/lib' | tee /etc/ld.so.conf.d/libsbml.conf && \
+      ldconfig
+
+RUN   cd tmp/libsbml/${libSBML_5} && make install 
+
+# RUN   echo "/usr/local/libsbml/lib/python2.7/site-packages/libsbml" | tee /usr/local/lib/python2.7/dist-packages/libsbml.pth && \
+#       echo '/usr/local/libsbml/lib' | tee /etc/ld.so.conf.d/libsbml.conf && \
+#       ldconfig
+
+#RUN   echo "/usr/local/libsbml/lib/python3.5/site-packages/libsbml" | tee /usr/local/lib/python3.5/dist-packages/libsbml.pth && \
+#      echo "/usr/local/libsbml/lib" | tee /etc/ld.so.conf.d/libsbml.conf && \
+#      ldconfig
 
 #       mkdir -p /tmp/projects/libsbml/build_experimental && \
 #       cd /tmp/projects/libsbml && svn co https://svn.code.sf.net/p/sbml/code/branches/libsbml-experimental@20107 && \
@@ -67,19 +91,19 @@ RUN   cd tmp/libsbml/${libSBML_5} && make -j6 && make install
 
 # ####################
 # # Install RoadRunner
-RUN   apt-get install -y python-numpy swig llvm-3.4-dev libncurses5-dev && \
-      mkdir -p tmp/rr/build/thirdparty && \
-      mkdir -p tmp/rr/build/all && \
-      cd tmp/rr && git clone https://github.com/sys-bio/roadrunner.git && \
-      cd tmp/rr/roadrunner && git checkout tags/v1.2.6 && \
-      cd tmp/rr/build/thirdparty && cmake ../../roadrunner/third_party/ -DCMAKE_INSTALL_PREFIX=/usr/local/roadrunner/thirdparty && \
-      cd tmp/rr/build/thirdparty && make -j4 && make install && \
-      cd tmp/rr/build/all && cmake -DBUILD_PYTHON=ON -DBUILD_LLVM=ON -DBUILD_TESTS=ON -DCMAKE_INSTALL_PREFIX=/usr/local/roadrunner -DTHIRD_PARTY_INSTALL_FOLDER=/usr/local/roadrunner/thirdparty -DLLVM_CONFIG_EXECUTABLE=/usr/bin/llvm-config-3.4 -DBUILD_TEST_TOOLS=ON ../../roadrunner && \
-      cd tmp/rr/build/all && make -j4 && make install && \
-      # Adding to python search path
-      echo "/usr/local/roadrunner/site-packages" | tee /usr/local/lib/python2.7/dist-packages/rr.pth && \
-      echo "/usr/local/roadrunner/lib" | tee /etc/ld.so.conf.d/roadrunner.conf && \
-      ldconfig
+# RUN   apt-get install -y python-numpy swig llvm-3.4-dev libncurses5-dev && \
+#       mkdir -p tmp/rr/build/thirdparty && \
+#       mkdir -p tmp/rr/build/all && \
+#       cd tmp/rr && git clone https://github.com/sys-bio/roadrunner.git && \
+#       cd tmp/rr/roadrunner && git checkout tags/v1.2.6 && \
+#       cd tmp/rr/build/thirdparty && cmake ../../roadrunner/third_party/ -DCMAKE_INSTALL_PREFIX=/usr/local/roadrunner/thirdparty && \
+#       cd tmp/rr/build/thirdparty && make -j4 && make install && \
+#       cd tmp/rr/build/all && cmake -DBUILD_PYTHON=ON -DBUILD_LLVM=ON -DBUILD_TESTS=ON -DCMAKE_INSTALL_PREFIX=/usr/local/roadrunner -DTHIRD_PARTY_INSTALL_FOLDER=/usr/local/roadrunner/thirdparty -DLLVM_CONFIG_EXECUTABLE=/usr/bin/llvm-config-3.4 -DBUILD_TEST_TOOLS=ON ../../roadrunner && \
+#       cd tmp/rr/build/all && make -j4 && make install && \
+#       # Adding to python search path
+#       echo "/usr/local/roadrunner/site-packages" | tee /usr/local/lib/python2.7/dist-packages/rr.pth && \
+#       echo "/usr/local/roadrunner/lib" | tee /etc/ld.so.conf.d/roadrunner.conf && \
+#       ldconfig
 
 # #####################
 # # Install SBML2MATLAB
