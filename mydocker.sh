@@ -1,5 +1,5 @@
 #!/bin/bash 
-IMAGE=sysbio
+IMAGE=jhsong/sysbio
 CONTAINER=hellosysbio
 build() { 
     docker build . -t $IMAGE
@@ -8,7 +8,7 @@ shell() {
     docker exec -it ${CONTAINER} bash 
 }
 start() {
-    docker run -d -it --rm --name ${CONTAINER} $IMAGE
+    docker run -it --rm --name ${CONTAINER} $IMAGE
 }
 stop() {
     docker stop ${CONTAINER}
