@@ -10,42 +10,41 @@ shell() {
     docker exec -it ${CONTAINER} bash 
 }
 start() {
-    docker run -it -d --rm --name ${CONTAINER} ${PORT_MAPS} ${VOLUME_MAPS} $IMAGE
+    [ "$1" == "yes" ] && \
+    docker run -it    --rm --name ${CONTAINER} ${PORT_MAPS} ${VOLUME_MAPS} $IMAGE || 
+    docker run -it -d --rm --name ${CONTAINER} ${PORT_MAPS} ${VOLUME_MAPS} $IMAGE 
 }
 stop() {
     docker stop ${CONTAINER}
 }
-case "$1" in
-    shell)
-        shell 
-        ;; 
-    build)
-        build $2
-        ;;
-    start)
-        start $2
-        ;;
-    stop)
-        stop
-        ;;
-    restart)
-        stop & 
-        echo "wait stoping ..."
-        wait 
-        start $2
+source $(dirname $0)/argparse.bash || exit 1
+argparse "$@" <<EOF || exit 1
+
+parser.add_argument('mode', type=str, help='build|start|stop|restart|shell')
+
+parser.add_argument('-f', '--foreground', action='store_true', default=False,
+    help='whether foreground mode or not [default %(default)s]')
+
+# parser.add_argument('-m', '--multiple', nargs='+',
+#                     help='multiple values allowed')
+
+EOF
+
+case "$MODE" in 
+    build) 
+        build 
         ;; 
     start) 
-        start
-        ;;
+        start "$FOREGROUND"
+        ;; 
     stop) 
-        stop
-        ;;
-    *)
-        echo 
-        echo "Usage $0 shell"
-        echo "Usage $0 build"
-        echo "Usage $0 start"
-        echo "Usage $0 stop"
-        echo "Usage $0 restart"
-        echo 
-esac
+        stop 
+        ;; 
+    restart) 
+        stop 
+        start "$FOREGROUND"  
+        ;; 
+    *) 
+        # echo "" 
+esac 
+

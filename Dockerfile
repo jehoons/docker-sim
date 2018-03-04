@@ -1,4 +1,3 @@
-# FROM openjdk:8-jre-alpine
 FROM ubuntu:16.04
 
 ENV DEBIAN_FRONTEND="noninteractive"

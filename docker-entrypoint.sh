@@ -2,7 +2,9 @@
 cmd="$1"
 if [ "${cmd}" == "startup" ]; then
     mkdir logs
-    # jupyter lab
+    echo "###########################"
+    echo "#      Jupyter lab"
+    echo "###########################"
     export SHELL=/bin/bash
     jupyter lab --port=9995 --no-browser --ip=0.0.0.0 --allow-root \
         --notebook-dir=`pwd` >& logs/jupyterlab.log & 
