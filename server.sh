@@ -10,7 +10,7 @@ shell() {
     docker exec -it ${CONTAINER} bash 
 }
 start() {
-    docker run -it -d --rm --name ${CONTAINER} ${PORT_MAPS} $IMAGE
+    docker run -it -d --rm --name ${CONTAINER} ${PORT_MAPS} ${VOLUME_MAPS} $IMAGE
 }
 stop() {
     docker stop ${CONTAINER}
