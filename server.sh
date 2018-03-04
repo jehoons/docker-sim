@@ -40,11 +40,14 @@ case "$MODE" in
     stop) 
         stop 
         ;; 
+    shell) 
+        shell  
+        ;; 
     restart) 
         stop 
         start "$FOREGROUND"  
         ;; 
     *) 
-        # echo "" 
+        echo "running with unknown parameter "
 esac 
 
