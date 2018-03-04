@@ -1,6 +1,8 @@
 #!/bin/bash 
 IMAGE=jhsong/sysbio
 CONTAINER=hellosysbio
+PORT_MAPS="--publish=9995:9995" 
+
 build() { 
     docker build . -t $IMAGE
 }
@@ -8,7 +10,8 @@ shell() {
     docker exec -it ${CONTAINER} bash 
 }
 start() {
-    docker run -it --rm --name ${CONTAINER} $IMAGE
+    docker run -it -d --rm --name ${CONTAINER} ${PORT_MAPS} \
+        $IMAGE
 }
 stop() {
     docker stop ${CONTAINER}
