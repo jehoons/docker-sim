@@ -1,33 +1,28 @@
-#!/bin/bash
+#!/bin/bash 
+IMAGE=jhsong/sysbio
+CONTAINER=hellosysbio
+PORT_MAPS="--publish=9995:9995" 
+VOLUME_MAPS="--volume=`pwd`/share:/root/share" 
 build() { 
-    echo "build ... " 
-} 
-start() {
-    echo "start ... " 
+    docker build . -t $IMAGE
 }
-
+shell() { 
+    docker exec -it ${CONTAINER} bash 
+}
+start() {
+    docker run -it -d --rm --name ${CONTAINER} ${PORT_MAPS} ${VOLUME_MAPS} $IMAGE
+}
+stop() {
+    docker stop ${CONTAINER}
+}
 source $(dirname $0)/argparse.bash || exit 1
 argparse "$@" <<EOF || exit 1
 parser.add_argument('mode', type=str, help='build|start|stop|restart|shell')
-parser.add_argument('-a', '--the-answer', default=42, type=int,
-                    help='Pick a number [default %(default)s]')
-parser.add_argument('-m', '--multiple', nargs='+',
-                    help='multiple values allowed')
+parser.add_argument('-f', '--foreground', action='store_true', default=False,
+                   help='whether foreground mode or not [default %(default)s]')
+# parser.add_argument('-m', '--multiple', nargs='+',
+#                     help='multiple values allowed')
 EOF
-
-#echo required infile: "$INFILE"
-#echo the answer: "$THE_ANSWER"
-#echo -n do the thing?
-#if [[ $DO_THE_THING ]]; then
-#    echo " yes, do it"
-#else
-#    echo " no, do not do it"
-#fi
-#echo -n "arg with multiple values: "
-#for a in "${MULTIPLE[@]}"; do
-#    echo -n "[$a] "
-#done
-#echo
 
 case "$MODE" in 
     build) 
@@ -43,6 +38,6 @@ case "$MODE" in
         restart 
         ;; 
     *) 
-        echo "" 
+        # echo "" 
 esac 
 
