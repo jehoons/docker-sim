@@ -15,7 +15,7 @@ start() {
     docker run -it -d --rm --name ${CONTAINER} ${PORT_MAPS} ${VOLUME_MAPS} $IMAGE 
 }
 stop() {
-    docker stop ${CONTAINER}
+    docker stop --time=10 ${CONTAINER}
 }
 source $(dirname $0)/argparse.bash || exit 1
 argparse "$@" <<EOF || exit 1

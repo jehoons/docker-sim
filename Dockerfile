@@ -1,4 +1,5 @@
 FROM ubuntu:16.04
+# Je-Hoon Song <song.jehoon@gmail.com> 
 
 ENV DEBIAN_FRONTEND="noninteractive"
 
@@ -8,6 +9,7 @@ RUN apt-get update && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* && \
     rm -rf /var/cache/oracle-jdk8-installer;
+
 # Fix certificate issues, found as of 
 # https://bugs.launchpad.net/ubuntu/+source/ca-certificates-java/+bug/983302
 RUN apt-get update && \
@@ -16,6 +18,7 @@ RUN apt-get update && \
     update-ca-certificates -f && \
     rm -rf /var/lib/apt/lists/* && \
     rm -rf /var/cache/oracle-jdk8-installer;
+
 # Setup JAVA_HOME, this is useful for docker commandline
 ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64/
 RUN export JAVA_HOME
@@ -38,7 +41,8 @@ ENV PATH /var/lib/neo4j/bin:$PATH
 WORKDIR /root
 
 VOLUME /data
-# Python 3
+
+# python 3 
 RUN apt-get update \
   && apt-get install -y python3-pip python3-dev \
   && cd /usr/local/bin \
@@ -48,10 +52,8 @@ RUN pip install cycli
 RUN pip install flask flask_cors
 RUN pip install telepot
 
-# for editors 
+# editors 
 RUN apt-get update && apt-get install -y nano
-
-# INSTALL VIM 
 RUN apt-get update && apt-get install -y build-essential git curl wget bash-completion openssh-server gfortran sudo make \
     cmake libssl-dev libreadline-dev llvm libsqlite3-dev libmysqlclient-dev python-dev \
     python3-dev zlib1g-dev libbz2-dev language-pack-ko
@@ -104,9 +106,8 @@ RUN pip install matplotlib-venn sympy sklearn
 COPY config/requirements.txt /tmp/requirements.txt
 RUN pip install -r /tmp/requirements.txt 
 
-# Tellurirum 
+# tellurirum 
 RUN pip install tellurium
-
 
 ARG IPADDR=localhost
 ENV STANDB_IPADDR=${IPADDR}
@@ -128,6 +129,7 @@ ENV LANG=en_US.UTF-8
 RUN rm -rf tmp
 
 ENTRYPOINT ["/docker-entrypoint.sh"]
+
 # CMD ["neo4j"]
 CMD ["startup"]
 
