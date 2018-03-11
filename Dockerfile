@@ -79,6 +79,7 @@ COPY .vimrc /root/.vimrc
 RUN mkdir -p /root/.vim/autoload /root/.vim/bundle && \
     curl -LSso /root/.vim/autoload/pathogen.vim https://tpo.pe/pathogen.vim
 RUN cd /root/.vim/bundle && git clone git://github.com/neo4j-contrib/cypher-vim-syntax.git
+RUN vim +NeoBundleInstall +qall
 
 # etc 
 RUN apt-get update && apt-get install -y \
@@ -125,6 +126,7 @@ COPY config/jupyter_notebook_config.py /root/.jupyter/
 ENV PATH /usr/local/neo4j-guide:$PATH
 ENV LC_ALL=en_US.UTF-8
 ENV LANG=en_US.UTF-8
+ENV PYTHONPATH $PYTHONPATH:/usr/local/lib/python3.5/dist-packages:/root/share
 
 RUN rm -rf tmp
 
