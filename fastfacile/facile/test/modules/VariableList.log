@@ -1,0 +1,66 @@
+Testing class: VariableList
+Creating var1 object: {
+  'Variable' => {
+                  'is_expression_flag' => 0,
+                  'value' => '1',
+                  'name' => 'f1',
+                  'probe_flag' => 0,
+                  'source_line' => 'f1=1.0',
+                  'index' => 0,
+                  'dimension' => 2,
+                  'type' => 'rate',
+                  'is_bifurcation_parameter_flag' => 0
+                }
+};
+instance count is 1
+Creating var2 object: {
+  'Variable' => {
+                  'is_expression_flag' => 1,
+                  'value' => '1.1',
+                  'name' => 'f2',
+                  'probe_flag' => 0,
+                  'source_line' => 'f2=1.1',
+                  'index' => 1,
+                  'dimension' => 1,
+                  'type' => 'rate',
+                  'is_bifurcation_parameter_flag' => 0
+                }
+};
+instance count is 2
+Creating var3 object: {
+  'Variable' => {
+                  'is_expression_flag' => 0,
+                  'value' => '1.5',
+                  'name' => 'f3',
+                  'probe_flag' => 0,
+                  'source_line' => 'f3=1.5',
+                  'index' => 2,
+                  'dimension' => 3,
+                  'type' => 'rate',
+                  'is_bifurcation_parameter_flag' => 0
+                }
+};
+instance count is 3
+iterating through variable list...
+variable f1 --> f1=1.0
+variable f2 --> f2=1.1
+variable f3 --> f3=1.5
+testing get_names():
+3
+testing lookup_by_name():
+variable exists and has value 1.5
+{
+  'Variable' => {
+                  'is_expression_flag' => 0,
+                  'value' => '1.5',
+                  'name' => 'f3',
+                  'probe_flag' => 0,
+                  'source_line' => 'f3=1.5',
+                  'index' => 2,
+                  'dimension' => 3,
+                  'type' => 'rate',
+                  'is_bifurcation_parameter_flag' => 0
+                }
+};
+variable does not exist
+Done testing class: VariableList

@@ -1,0 +1,24 @@
+EQN:
+    variable k1 = 1 #{0.001, 1000}
+    variable k2 = 1 #{0.001, 1000}
+
+    null -> A; v1f="k1"
+    A -> null; v1r="k2"
+
+INIT: 
+    A = 1e-5
+
+MOIETY:
+    # independent Dsha, Dshi
+
+PROBE:
+    # probe WNT
+    
+BIFURC_PARAM:
+    # W
+
+CONFIG:
+    t_final = 120
+    compartment_volume = 1e-15
+    # easystoch_sample_times = 1.0 2.0
+    #

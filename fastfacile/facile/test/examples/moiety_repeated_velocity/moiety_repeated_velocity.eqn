@@ -1,0 +1,14 @@
+# the purpose of this example is to check that
+# the moiety analysis computes the correct stoichiometric
+# matrix and constraints, for the special case where
+# two different reactions have the same velocity
+# and substrates
+b -> c + d;f1=1
+b -> e; f1
+
+INIT
+b = 100
+
+MOIETY
+independent e
+

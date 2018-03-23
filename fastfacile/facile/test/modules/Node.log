@@ -1,0 +1,14 @@
+Testing class: Node
+Creating node object: {
+  'Node' => {
+              'ID' => -1,
+              'index' => 0,
+              'create_reactions_ref' => [],
+              'destroy_reactions_ref' => [],
+              'initial_value_set_flag' => 0,
+              'name' => 'A',
+              'probe_flag' => 0,
+              'initial_value' => '0'
+            }
+};
+Done testing class: Node

@@ -1,0 +1,197 @@
+##########################
+# author: Je-Hoon Song 
+# ver: 2015
+EQN:
+    # edges 
+    variable e2=0           # {0, 0}
+    variable e3=0           # {0, 0}
+    variable e4=0           # {0, 0}
+    variable e5=1           # {1, 1}
+    variable e6=0           # {0, 0}
+    variable e7=0           # {0, 0}
+    variable e8=1           # {1, 1}
+    variable e9=0           # {0, 0}
+    variable e10=0          # {0, 0}
+
+    # reaction 1. 
+    variable S=0            # {0, 0}
+    variable k_SA=1         # {10,1000}
+    variable K_SA=1         # {10,1000}
+
+    # reaction 2.
+    variable k_BA=1         # {10,1000}
+    variable K_BA=1         # {10,1000}
+    variable ki_BA=1        # {10,1000}
+    variable Ki_BA=1        # {10,1000}
+
+    # reaction 3.
+    variable k_CA=1         # {10,1000}
+    variable K_CA=1         # {10,1000}
+    variable ki_CA=1        # {10,1000}
+    variable Ki_CA=1        # {10,1000}
+
+    # reaction 4.
+    variable k_AA=1         # {10,1000}
+    variable K_AA=1         # {10,1000}
+    variable ki_AA=1        # {10,1000}
+    variable Ki_AA=1        # {10,1000}
+
+    # reaction 5.
+    variable k_AB=1         # {10,1000}
+    variable K_AB=1         # {10,1000}
+    variable ki_AB=1        # {10,1000}
+    variable Ki_AB=1        # {10,1000}
+
+    # reaction 6.
+    variable k_CB=1         # {10,1000}
+    variable K_CB=1         # {10,1000}
+    variable ki_CB=1        # {10,1000}
+    variable Ki_CB=1        # {10,1000}
+
+    # reaction 7.
+    variable k_BB=1         # {10,1000}
+    variable K_BB=1         # {10,1000}
+    variable ki_BB=1        # {10,1000}
+    variable Ki_BB=1        # {10,1000}
+
+    # reaction 8.
+    variable k_BC=1         # {10,1000}
+    variable K_BC=1         # {10,1000}
+    variable ki_BC=1        # {10,1000}
+    variable Ki_BC=1        # {10,1000}
+
+    # reaction 9.
+    variable k_AC=1         # {10,1000}
+    variable K_AC=1         # {10,1000}
+    variable ki_AC=1        # {10,1000}
+    variable Ki_AC=1        # {10,1000}
+
+    # reaction 10.
+    variable k_CC=1         # {10,1000}
+    variable K_CC=1         # {10,1000}
+    variable ki_CC=1        # {10,1000}
+    variable Ki_CC=1        # {10,1000}
+
+    # basal de-phosphorylation
+    variable ki_EA=1        # {10,1000}
+    variable Ki_EA=1        # {10,1000}
+    variable ki_EB=1        # {10,1000}
+    variable Ki_EB=1        # {10,1000}
+    variable ki_EC=1        # {10,1000}
+    variable Ki_EC=1        # {10,1000}
+
+    # basal phosphorylation
+    variable k_FA=1         # {10,1000}
+    variable K_FA=1         # {10,1000}
+    variable k_FB=1         # {10,1000}
+    variable K_FB=1         # {10,1000}
+    variable k_FC=1         # {10,1000}
+    variable K_FC=1         # {10,1000}
+
+
+    # By assuming kD = 1, A_FUS1 = a and kS = b, respectively. The estimated 
+    # values a, b are 0.6931 and 0.4019, respectively.
+
+    # fus1 expression 
+    variable Afus1 = 0.6931   # {0.6931, 0.6931}
+    # variable Ke50_FUS1 = 1  # {1, 1}
+    variable kd = 1           # {1, 1}
+    variable ks = 0.4019      # {0.4019, 0.4019}
+    # variable n = 1          # {1, 1}
+
+    # molecular abundance.
+    variable At = 60.23       # {60.23, 60.23}
+    variable Bt = 38.90       # {38.90, 38.90}
+    variable Ct = 363.59      # {363.59, 363.59}
+
+    # should be constant (basal inh enzyme)
+    variable E=1            # {1, 1}
+
+     # should be constant (basal act enzyme)
+    variable F=1            # {1, 1}
+
+    # Notation for the kinetic parameters. 
+    # A, B, or C are used as a suffixes to express the property of the edge. 
+    # For example, AB means A -> B or A -| B. 
+
+    # reaction 1. activation by input, S
+    null -> A; v_SA="k_SA*S*(At - A)/((At - A) + K_SA)"
+
+    # reaction 2. B -> A or B -| A
+    null -> A; v_BA="k_BA*B*(At - A)/((At - A) + K_BA) * exp(-(e2-1)^2/1e-70)" # activation
+    A -> null; vi_BA="ki_BA*B/((A) + Ki_BA) * exp(-(e2-2)^2/1e-70)" # inactivation
+
+    # reaction 3. C -> A or C -| A
+    null -> A; v_CA="k_CA*C*(At - A)/((At - A) + K_CA) * exp(-(e3-1)^2/1e-70)" # activation
+    A -> null; vi_CA="ki_CA*C/((A) + Ki_CA) * exp(-(e3-2)^2/1e-70)" # inactivation
+
+    # reaction 4. self activation or inactivation of A
+    null -> A; v_AA="k_AA*A*(At - A)/((At - A) + K_AA) * exp(-(e4-1)^2/1e-70)" # activation
+    A -> null; vi_AA="ki_AA*A/((A) + Ki_AA) * exp(-(e4-2)^2/1e-70)" # inactivation
+
+    # reaction 5. A -> B or A -| B
+    null -> B; v_AB="k_AB*A*(Bt - B)/((Bt - B) + K_AB) * exp(-(e5-1)^2/1e-70)" # activation
+    B -> null; vi_AB="ki_AB*A/(B + Ki_AB) * exp(-(e5-2)^2/1e-70)" # inactivation
+
+    # reaction 6. C -> B or C -| B
+    null -> B; v_CB="k_CB*C*(Bt - B)/((Bt - B) + K_CB) * exp(-(e6-1)^2/1e-70)" # activation
+    B -> null; vi_CB="ki_CB*C/(B + Ki_CB) * exp(-(e6-2)^2/1e-70)" # inactivation
+
+    # reaction 7. self activation or inactivation of B
+    null -> B; v_BB="k_BB*B*(Bt - B)/((Bt - B) + K_BB) * exp(-(e7-1)^2/1e-70)" # activation
+    B -> null; vi_BB="ki_BB*B/((B) + Ki_BB) * exp(-(e7-2)^2/1e-70)" # inactivation
+
+    # reaction 8. B -> C or B -| C
+    null -> C; v_BC="k_BC*B*(Ct - C)/((Ct - C) + K_BC) * exp(-(e8-1)^2/1e-70)" # activation
+    C -> null; vi_BC="ki_BC*B/((C) + Ki_BC) * exp(-(e8-2)^2/1e-70)" # inactivation
+
+    # reaction 9. A -> C or A -| C
+    null -> C; v_AC="k_AC*A*(Ct - C)/((Ct - C) + K_AC) * exp(-(e9-1)^2/1e-70)" # activation
+    C -> null; vi_AC="ki_AC*A/((C) + Ki_AC) * exp(-(e9-2)^2/1e-70)" # inactivation
+
+    # reaction 10. self activation or inactivation of C
+    null -> C; v_CC="k_CC*C*(Ct - C)/((Ct - C) + K_CC) * exp(-(e10-1)^2/1e-70)" # activation
+    C -> null; vi_CC="ki_CC*C/((C) + Ki_CC) * exp(-(e10-2)^2/1e-70)" # inactivation
+
+    # reaction 11. basal de-phosphorylation 
+    A -> null; vi_EA="ki_EA*E/(A+Ki_EA)"
+    B -> null; vi_EB="ki_EB*E/(B+Ki_EB)"
+    C -> null; vi_EC="ki_EC*E/(C+Ki_EC)"
+
+    # reaction 12. basal phosphorylation
+    null -> A; v_FA="k_FA*F*(At - A)/((At - A) + K_FA)"
+    null -> B; v_FB="k_FB*F*(Bt - B)/((Bt - B) + K_FB)"
+    null -> C; v_FC="k_FC*F*(Ct - C)/((Ct - C) + K_FC)"
+
+    # reaction 13. Fus1-GFP expression.
+    # null -> FUS1; v_FUS1="FUS1MAX*C^n/(C^n + Ke50_FUS1^n)"
+
+    # Since FUS3pp and FUS1 has linear relationshiop, we modeled it as a 
+    # linear differential equation. as following: 
+    # dFUS1/dt = A_FUS1 * Fus3pp + kS - kD*FUS1. By assuming kD = 1, 
+    # A_FUS1 = a and kS = b, respectively. The estimated values a, b are 
+    # 0.6931 and 0.4019, respectively.
+    null -> FUS1; v_FUS1="Afus1*C"
+    null -> FUS1; v_FUS1_basal="ks"
+    FUS1 -> null; v_FUS1d="kd"
+
+INIT: 
+    A = 0.01 
+    B = 0.01
+    C = 0.01
+    FUS1 = 0.01
+
+MOIETY:
+    # independent Dsha, Dshi
+
+PROBE:
+    # probe WNT
+    
+BIFURC_PARAM:
+    # W
+
+CONFIG:
+    t_final = 120
+    compartment_volume = 1e-15
+    # easystoch_sample_times = 1.0 2.0
+    #

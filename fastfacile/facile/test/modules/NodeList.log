@@ -1,0 +1,45 @@
+Testing class: NodeList
+Creating node1 object: {
+  'Node' => {
+              'ID' => -1,
+              'index' => 0,
+              'create_reactions_ref' => [],
+              'destroy_reactions_ref' => [],
+              'initial_value_set_flag' => 0,
+              'name' => 'A',
+              'probe_flag' => 0,
+              'initial_value' => '0'
+            }
+};
+node count is 1
+Creating node2 object: {
+  'Node' => {
+              'ID' => -1,
+              'index' => 1,
+              'create_reactions_ref' => [],
+              'destroy_reactions_ref' => [],
+              'initial_value_set_flag' => 0,
+              'name' => 'B',
+              'probe_flag' => 0,
+              'initial_value' => '0'
+            }
+};
+node count is 2
+Creating node3 object: {
+  'Node' => {
+              'ID' => -1,
+              'index' => 2,
+              'create_reactions_ref' => [],
+              'destroy_reactions_ref' => [],
+              'initial_value_set_flag' => 0,
+              'name' => 'C',
+              'probe_flag' => 0,
+              'initial_value' => '0'
+            }
+};
+node count is 3
+iterating through node list...
+node A
+node B
+node C
+Done testing class: NodeList

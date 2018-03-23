@@ -1,0 +1,15 @@
+# Mostly test CONFIG section
+
+null -> X; f1=1
+
+INIT:
+
+X=10N
+
+CONFIG:
+compartment_volume = 1e-15;                      # in L
+ode_event_times = 1.0 5.0 9.0                    # list of times where system params change discontinuously
+t_final = 15.0                                   # simulation time
+t_vector = [t0:0.2:tf]                           # sampling vector for matlab
+matlab_ode_solver = ode45                        # matlab solver
+matlab_odeset_options = odeset('MaxStep', 0.01); # matlab options for odeset

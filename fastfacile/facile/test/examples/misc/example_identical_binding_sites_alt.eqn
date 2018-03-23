@@ -1,0 +1,8 @@
+# File: example_identical_binding_sites_alt.eqn
+#
+# example of two identical ligand binding sites
+# (written with adjusted rates)
+X + L   <-> XL;  f1_xl = 20.0; b_xl = 1.0   # L binds to first binding site
+XL + L  <-> XLL; f2_xl = 10.0; b_xl         # X binds second ligand
+
+

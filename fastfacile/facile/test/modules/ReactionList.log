@@ -1,0 +1,68 @@
+Testing class: ReactionList
+{
+  'ReactionList' => {
+                      'reactions' => []
+                    }
+};
+Adding reaction: {
+  'Reaction' => {
+                  'is_rate_law_flag' => 1,
+                  'substrate_names_ref' => [
+                                             'X',
+                                             'Y'
+                                           ],
+                  'source_line' => 'X + Y -> Z',
+                  'product_names_ref' => [
+                                           'Z'
+                                         ],
+                  'velocity' => 'RATE1',
+                  'index' => 0,
+                  'dependent_reactions_ref' => [],
+                  'easystoch_dynrate_order' => 0,
+                  'rate_ref' => bless( do{\(my $o = undef)}, 'Variable' )
+                }
+};
+instance count is 1
+Adding reaction: {
+  'Reaction' => {
+                  'is_rate_law_flag' => 0,
+                  'substrate_names_ref' => [
+                                             'A',
+                                             'B'
+                                           ],
+                  'source_line' => 'A + B -> C',
+                  'product_names_ref' => [
+                                           'C'
+                                         ],
+                  'velocity' => 'RATE2*A*B',
+                  'index' => 1,
+                  'dependent_reactions_ref' => [],
+                  'easystoch_dynrate_order' => 0,
+                  'rate_ref' => bless( do{\(my $o = undef)}, 'Variable' )
+                }
+};
+instance count is 2
+Adding reaction: {
+  'Reaction' => {
+                  'is_rate_law_flag' => 0,
+                  'substrate_names_ref' => [
+                                             'A',
+                                             'X'
+                                           ],
+                  'source_line' => 'A + X -> C',
+                  'product_names_ref' => [
+                                           'C'
+                                         ],
+                  'velocity' => 'RATE3*A*X',
+                  'index' => 2,
+                  'dependent_reactions_ref' => [],
+                  'easystoch_dynrate_order' => 0,
+                  'rate_ref' => bless( do{\(my $o = undef)}, 'Variable' )
+                }
+};
+instance count is 3
+iterating through instance list...
+X + Y -> Z
+A + B -> C
+A + X -> C
+Done testing class: ReactionList

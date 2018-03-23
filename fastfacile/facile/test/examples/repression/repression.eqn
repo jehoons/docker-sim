@@ -1,0 +1,34 @@
+# repression of reporter gene  
+#
+# D:   promoter
+# C:   promoter/RNAP complex
+# T:   transcribing RNAP
+# mR:  mRNA
+# mC1: mRNA/degradosome complex
+# mC2: mRNA/ribosome complex
+# mT:  translating ribosome
+# A:   protein
+# R:   repressor
+# Z:   repressor/DNA complex
+
+D <-> C		;f0= 0.42; b0= 0.1
+C -> T D	;k0= 0.01
+T -> mR		;v0= 0.3
+mR -> mC1	;mf0= 0.114 
+mC -> null 	;d0= 0.1	
+mR <-> mC2	;mf1= 4.0; mb1= 0.4
+mC2 -> mT mR	;k1= 0.3
+mT -> A		;v1= 0.048
+A -> null	;d1= 2.0e-4
+
+# repression
+R D <-> Z	;f2= 1.0e7; b2= 0.03
+
+PROMOTERS
+D; promoter_replication_time= 0.4
+C; associated_promoter= D	
+Z; associated_promoter= D
+
+INIT
+D= 1N
+R= 100N

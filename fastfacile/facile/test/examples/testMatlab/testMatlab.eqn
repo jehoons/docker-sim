@@ -1,0 +1,59 @@
+#####################################################################################
+# File:     testMatlab.eqn
+# Synopsys: Equation file to test for proper generation of Matlab ODE sim scripts.
+# Author:   J. Ollivier
+#####################################################################################
+#####################################################################################
+# Concurrent Version System (CVS) information:
+# --------------------------------------------
+# $RCSfile: testMatlab.eqn,v $
+# $Date: 2008-05-16 21:46:06 $
+# $Revision: 1.2 $
+# $Author: ollivier $
+######################################################################################
+
+null -> S0; sourceS0f=1 # constant source
+null -> S1; func1="0.5*(square(2*pi*t/0.2) + 1)"  // time-varying source
+
+# test empty lines
+// test empty lines
+\\ this line should be flagged because wrong comment format
+              # test empty lines
+
+S0 -> A; fa0=10
+S0 -> A; fa0   # test duplicate line, and re-use of rate constant
+S1 -> B; fb0=8
+A + B -> C; f1=5; b1=0.1   # constant b1 should be unused
+A   B <-> D; f2 = 60e-1; b2=0.02e+1
+C -> null; sinkCf=10
+null -> D; func2="0.5*(square(2*pi*t/0.2) + 1)"  # tracks total S1 created, initially
+null -> X; sourceXf = 1; sourceXb = 99   // simple source, sourceXb should be unused
+Y -> null ; sinkYf= 9; sinkYb =11      # simple sink, sinkYb rate should go unused
+W <- null ; sourceWf = "sin(2*pi*t/0.1)"  ; sourceWb= "cos(t)"  # time-varying sink/source, sourceWb unused
+null <- Z ; sinkZf=1; sinkZb=1.3   // simple sink, rate sinkZb should go unused
+
+E -> F; ff = fa0    # testing re-use of rate constant
+E -> G; gg = 0    # testing warning for zero constants
+F<->G; hh=10; ii=5;
+
+M1 <-> M2;  m1; m2  # test rates and variables without a value
+
+variable v1="E + G"
+parameter v2=55.5
+variable v3="E + E"
+
+PROBE:
+
+probe E, v1, v3
+probe G
+probe S1
+probe v4="v3 + v1"
+probe sourceWf
+
+INIT:
+E=10.2e+1;
+Y =   0.44e+1   
+Z=5.5
+A;
+C
+ZZZ=1      # this should generate a warning because does not appear in equations

@@ -1,0 +1,54 @@
+# This file exercises the moiety identification capabilities of equation convert
+
+# A simple conversion loop
+W1 -> X1;  f1=0.10
+X1 -> Y1;  f2=f1
+Y1 -> Z1;  f3=f1
+Z1 -> W1;  f4=f1
+
+# ??? should complain about redefining f2 here !!!
+W2 -> X2;  f1
+X2 -> Y2;  f2=f1
+Y2 -> Z2;  f3=f1
+Z2 -> W2;  f4=f1
+
+# A chain of enzymatic reactions.
+E0 + S0 <-> C0; kf0=1.0; kb0=0.1
+C0 -> E0 + S1;  kp0=10.0
+
+E1 + S1 <-> C1; kf1=1.1; kb1=0.11
+C1 -> E1 + S2;  kp1=11.0
+
+E2 + S2 <-> C2; kf2=1.2; kb2=0.12
+C2 -> E2 + S3;  kp2="12.0*1/X1^2"
+
+MOIETY
+# specifying free variables as follows, to get W1_tot and W2_tot
+#X1
+#Y1
+#Z1
+independent X2
+independent Y2
+independent Z2
+# specifying only the following constrained vars does not seem to work??
+# bug fixed now it should...
+dependent W1
+#dependent W2
+
+# Moiety identification should be E0_tot, E1_tot, E2_tot and S0_tot
+# S0 is not contrained by following??!!
+# bug fixed, now it should.
+dependent E1
+dependent E2
+dependent S0
+dependent E0
+
+INIT
+
+W1=1.0
+W2=2.0
+
+E0 = 0.10
+E1 = 0.11
+E2 = 0.12
+S0 = 10.0

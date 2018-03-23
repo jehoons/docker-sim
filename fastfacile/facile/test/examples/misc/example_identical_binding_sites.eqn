@@ -1,0 +1,8 @@
+# File: example_identical_binding_sites.eqn
+#
+# example of two identical ligand binding sites
+# (written as repeated reaction)
+X + L   <-> XL;  f_xl = 10.0; b_xl = 1.0   # L binds to first binding site
+X + L    -> XL;  f_xl; b_xl                # L binds to second binding site, non-reversible!
+XL + L  <-> XLL; f_xl; b_xl                # X binds second ligand
+

@@ -1,0 +1,30 @@
+###############################
+# GTPase/GEF toy model
+###############################
+GEF + GTPase_0 <-> GEF_GTPase_0; fc0=1e6; bc0=1e-06
+GEF_GTPase_0 -> GEF + GTPase_1; pc0=500
+GTPase_1 <-> GTPase_1b; fc1=0.5e6; bc1=0
+GTPase_1b -> GTPase_0; pc1=1
+
+###############################
+# Stimulus model
+###############################
+# apply a 0.5s impulse such that we introduce 1000 molecules of GEF into system
+# (n.b. assumes volume of 1e-15 L)
+null -> GEF; impulse_source_GEF="0.5*2000/6.022e8*(square(2*pi*(t-10)/40, 1.25)+1)"
+# wash away GEF with time constant tau=10ms (very fast) starting at t=20 thru t=40
+GEF -> null; wash_sink_GEF="0.5*100*(square(2*pi*(t-20)/40, 50)+1)"
+
+
+###############################
+# Initial conditions (in no. molecules, since stochastic sim)
+###############################
+INIT:
+GEF = 0;
+GTPase_0 = 1000N;
+
+CONFIG:
+
+easystoch_sample_times{impulse_source_GEF} = 10 10.5 50 50.5
+easystoch_sample_times{wash_sink_GEF} = 20 40 60 80
+

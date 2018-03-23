@@ -1,0 +1,78 @@
+######################################################################################
+#- File: 	RELEASE_HISTORY.TXT
+#-
+#- This program comes with ABSOLUTELY NO WARRANTY.
+#- This is free software, and you are welcome to redistribute it
+#- under certain conditions. See file LICENSE.TXT for details.
+#-
+######################################################################################
+
+Date	    Tag			Preparer	Notes
+----        ---			--------	-------
+
+2012/05/28  RELEASE_0V41	ollivier	Better section headers in generated easystoch simulation.
+						Easystoch input file default name changed to xyz.seqn
+						(from xyz_simulation_input).
+						No functional changes.
+
+2011/08/25  RELEASE_0V40	ollivier	Command-line switch "--events" is deprecated, use "--ode_event_times"
+						instead. Likewise for CONFIG section variable "--event_times", use
+						"ode_event_times" instead.
+						New CONFIG variable "easystoch_sample_times" implements and extends
+						functionality formerly associated with "--events" switch for EasyStoch
+						export. New 'table' and 'vector' keywords, fixed some numerical issues
+						with square().
+						Much OOP refactoring of code. New Model and *List classes.
+						Fixed problem where some parameters are not exported to SBML.
+						Fixed problem with ode_event steady-state stopping condition
+						and added SS_AbsTol parameter.
+
+2011/04/20  RELEASE_V30		ollivier	Fixed help command and other patches for *nix shell independence.
+						Upgraded SBML.pm module to work with version 4 of libSBML.
+						Matlab script ode_event.m interface changes: new param SS_RelTol,
+						renamed param SS_timescale, param re-ordering, and re-worked
+						steady-state feature implementation and tests.
+						Eliminated wrapper script that calls solver function -- solver is
+						now called directly from driver script.
+						ODE function is now callable by other Matlab scripts.
+
+2010/07/28  RELEASE_V26		ollivier	Switch from CVS to Bazaar for version control.
+						Fixed major bug in easystoch output: rate expressions were not
+						being properly evaluated to numeric value, due to exponentiation
+						operator '^' not being translated to Perl's '**'. Also, substituted
+						values were not parenthesized.
+						Fix -P option so that probe expressions are still defined if not plotted.
+
+2008/07/04  RELEASE_V25		ollivier	Add support and testcases for steady-state events (Matlab only).
+						Fix minor bug whereby a time point was repeated 2x at an event point.
+						Fix minor bug when parsing CONFIG section.
+
+2008/06/10  RELEASE_V24		ollivier	Add support for --split option.
+
+2008/05/??  RELEASE_V23		ollivier	Moved *.pm files to modules directory.
+						Moved testcases to test directory.
+						Moved contents of various *.cmd files into Makefile.
+						Expressions no longer need to be quoted.
+						When a rate or variable is set to another variable (e.g. f1=f2),
+						the other variable's value is no longer substituted.  Instead
+						the variable is treated like expression.
+						For EasyStoch output, expressions can now be a function of
+						other variables.  E.g.  f1=2*f3 is supported and will be evaluated.
+						For Mathematica output, replace exponentiation operator '**' with '^'.
+						When no value is given to a rate, plug in 0 and issue Warning
+						instead of an error and quitting.
+
+?	    RELEASE_V22		ollivier	Add support for PROBE section.  Probes are output in Matlab files.
+						Implemented long-style (e.g. --matlab) options.  Maintained short-style
+						abbreviations for backward compatibility. Simplified option processing.
+						Updated and improved help page.
+						Fix bug to allow whitespace in explicit variable expressions.
+
+?	    RELEASE_V21		ollivier	Check that we have Class::Std version 0.0.8 or better (otherwise Variable.pm reports
+						strange error).
+
+?	    RELEASE_V20		ollivier	Major upgrade from RELEASE_0V12.  Object-oriented code.
+						Support for SBML, Maple, XPP, AUTO
+						system reduction was added.  Numerous other improvements.
+						This version was used as basis for Bioinformatics journal paper.
+

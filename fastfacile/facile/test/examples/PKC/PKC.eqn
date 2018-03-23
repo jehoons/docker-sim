@@ -1,0 +1,49 @@
+## Example file for eqnconvert.  A few constraints can be identified.
+## Also, this file could be used as example for the output order issues.
+## In particular, v10 & v8 depend on Ca or Ca_ER which will be constrained
+
+### Gq model
+
+### PLC
+###======================
+null -> null; C_GtPLC=0.07;
+
+## IP3
+###===================
+null -> PIP2;k6_p="10-PIP2";
+null -> null;k6_s=0.4;
+null -> null;k6_m=0.4;     
+PIP2->IP3 + DAG;k6="k6_s*C_GtPLC*Ca/(k6_m+Ca*C_GtPLC)";
+IP3 -> null;k7=2;
+
+### Calcium on cytosol and ER
+###==========================================
+Ca_ER => Ca;v8="(20*(IP3/(0.4+IP3))^4+0.01)*Ca_ER*(1-rop)";
+###
+Ca => Ca_ER;v10="40*Ca^2/(0.15^2+Ca^2)";
+###
+
+### IP3R
+###=====================================
+null -> rop;kg="Ca^4*(1-rop)";
+rop -> null;F=0.02;
+
+###DAG
+###=================
+DAG -> null;k12=0.7;
+DAG + PKC <-> PKCt; k11=0.1; b11=70;
+###========================================
+
+INIT
+PIP2=10;
+Ca=0.1;
+Ca_ER=1100;
+PKC=1;
+
+BIFURC_PARAM
+C_GtPLC
+k6_s
+k6_m
+
+MOIETY
+independent Ca PKCt

@@ -1,0 +1,161 @@
+Loading internal null logger. Install Log::Log4perl for logging messages
+CPAN: Storable loaded ok (v2.53_01)
+Reading '/home/pbs/.local/share/.cpan/Metadata'
+  Database was generated on Tue, 13 Sep 2016 09:41:02 GMT
+Running install for module 'Class::Std'
+CPAN: Digest::SHA loaded ok (v5.95)
+CPAN: Compress::Zlib loaded ok (v2.068)
+Checksum for /home/pbs/.local/share/.cpan/sources/authors/id/C/CH/CHORNY/Class-Std-0.013.tar.gz ok
+CPAN: File::Temp loaded ok (v0.2304)
+'YAML' not installed, will not store persistent state
+CPAN: CPAN::Meta::Requirements loaded ok (v2.132)
+CPAN: Parse::CPAN::Meta loaded ok (v1.4414)
+CPAN: CPAN::Meta loaded ok (v2.150001)
+---- Unsatisfied dependencies detected during ----
+----       CHORNY/Class-Std-0.013.tar.gz      ----
+    Module::Build [build_requires]
+Running install for module 'Module::Build'
+Checksum for /home/pbs/.local/share/.cpan/sources/authors/id/L/LE/LEONT/Module-Build-0.4220.tar.gz ok
+CPAN: Module::CoreList loaded ok (v5.20151213)
+Configuring L/LE/LEONT/Module-Build-0.4220.tar.gz with Makefile.PL
+# running Build.PL --installdirs site
+
+Checking optional features...
+inc_bundling_support....disabled
+  requires:
+    ! inc::latest is not installed
+
+ERRORS/WARNINGS FOUND IN PREREQUISITES.  You may wish to install the versions
+of the modules indicated above before proceeding with this installation
+
+Created MYMETA.yml and MYMETA.json
+Creating new 'Build' script for 'Module-Build' version '0.4220'
+  LEONT/Module-Build-0.4220.tar.gz
+  /usr/bin/perl Makefile.PL INSTALLDIRS=site -- OK
+Running make for L/LE/LEONT/Module-Build-0.4220.tar.gz
+/usr/bin/perl Build --makefile_env_macros 1
+Building Module-Build
+  LEONT/Module-Build-0.4220.tar.gz
+  /usr/bin/make -- OK
+Running make test
+/usr/bin/perl Build --makefile_env_macros 1 test
+t/00-compile.t ................. ok
+t/PL_files.t ................... ok
+t/actions/installdeps.t ........ ok
+t/actions/manifest_skip.t ...... ok
+t/add_property.t ............... ok
+t/add_property_array.t ......... ok
+t/add_property_hash.t .......... ok
+t/basic.t ...................... ok
+t/bundle_inc.t ................. skipped: $ENV{MB_TEST_EXPERIMENTAL} is not set
+t/compat.t ..................... ok
+t/compat/exit.t ................ ok
+t/debug.t ...................... ok
+t/destinations.t ............... ok
+t/ext.t ........................ ok
+t/extend.t ..................... ok
+t/files.t ...................... ok
+t/help.t ....................... ok
+t/install.t .................... ok
+t/install_extra_target.t ....... ok
+t/manifypods.t ................. ok
+t/manifypods_with_utf8.t ....... ok
+t/metadata.t ................... ok
+t/metadata2.t .................. ok
+t/mymeta.t ..................... ok
+t/new_from_context.t ........... ok
+t/notes.t ...................... ok
+t/par.t ........................ skipped: PAR::Dist 0.17 or up not installed to check .par's.
+t/parents.t .................... ok
+t/perl_mb_opt.t ................ ok
+t/pod_parser.t ................. ok
+t/ppm.t ........................ ok
+t/properties/dist_suffix.t ..... ok
+t/properties/license.t ......... ok
+t/properties/module_name.t ..... ok
+t/properties/needs_compiler.t .. ok
+t/properties/release_status.t .. ok
+t/properties/requires.t ........ ok
+t/properties/share_dir.t ....... ok
+t/resume.t ..................... ok
+t/runthrough.t ................. ok
+t/sample.t ..................... ok
+t/script_dist.t ................ ok
+t/signature.t .................. ok
+t/test_file_exts.t ............. ok
+t/test_reqs.t .................. ok
+t/test_type.t .................. ok
+t/test_types.t ................. ok
+t/tilde.t ...................... ok
+t/unit_run_test_harness.t ...... ok
+t/use_tap_harness.t ............ ok
+t/versions.t ................... ok
+t/write_default_maniskip.t ..... ok
+t/xs.t ......................... ok
+All tests successful.
+Files=53, Tests=1167, 52 wallclock secs ( 0.33 usr  0.09 sys + 43.36 cusr  4.94 csys = 48.72 CPU)
+Result: PASS
+  LEONT/Module-Build-0.4220.tar.gz
+  /usr/bin/make test -- OK
+Running make install
+/usr/bin/perl Build --makefile_env_macros 1 install
+Building Module-Build
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+ERROR: Can't create '/usr/local/man/man1'
+mkdir /usr/local/man: File exists at /usr/share/perl/5.22/ExtUtils/Install.pm line 477.
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+ at lib/Module/Build/Base.pm line 3559.
+Makefile:77: recipe for target 'install' failed
+make: *** [install] Error 17
+  LEONT/Module-Build-0.4220.tar.gz
+  /usr/bin/make install  -- NOT OK
+  CHORNY/Class-Std-0.013.tar.gz
+  Has already been unwrapped into directory /home/pbs/.local/share/.cpan/build/Class-Std-0.013-rlDS_U
+Configuring C/CH/CHORNY/Class-Std-0.013.tar.gz with Makefile.PL
+Checking if your kit is complete...
+Looks good
+Generating a Unix-style Makefile
+Writing Makefile for Class::Std
+Writing MYMETA.yml and MYMETA.json
+  CHORNY/Class-Std-0.013.tar.gz
+  /usr/bin/perl Makefile.PL INSTALLDIRS=site -- OK
+Running make for C/CH/CHORNY/Class-Std-0.013.tar.gz
+cp lib/Class/Std.pm blib/lib/Class/Std.pm
+Manifying 1 pod document
+  CHORNY/Class-Std-0.013.tar.gz
+  /usr/bin/make -- OK
+Running make test
+PERL_DL_NONLAZY=1 "/usr/bin/perl" "-MExtUtils::Command::MM" "-MTest::Harness" "-e" "undef *Test::Harness::Switches; test_harness(0, 'blib/lib', 'blib/arch')" t/*.t
+# Testing Class::Std 0.013
+t/00.load.t ............ ok
+t/access.t ............. ok
+t/access_automethod.t .. ok
+t/access_name.t ........ ok
+t/automethod.t ......... ok
+t/begin-coercion.t ..... ok
+t/can.t ................ ok
+t/coercions.t .......... ok
+t/cumulative.t ......... ok
+t/dump.t ............... ok
+t/perlattrs.t .......... ok
+t/runtime.t ............ ok
+t/simple.t ............. ok
+t/start.t .............. ok
+All tests successful.
+Files=14, Tests=275,  1 wallclock secs ( 0.05 usr  0.01 sys +  0.50 cusr  0.05 csys =  0.61 CPU)
+Result: PASS
+  CHORNY/Class-Std-0.013.tar.gz
+  /usr/bin/make test -- OK
+Running make install
+Manifying 1 pod document
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+ERROR: Can't create '/usr/local/man/man3'
+mkdir /usr/local/man: File exists at /usr/share/perl/5.22/ExtUtils/Install.pm line 477.
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+ at -e line 1.
+Makefile:709: recipe for target 'pure_site_install' failed
+make: *** [pure_site_install] Error 17
+  CHORNY/Class-Std-0.013.tar.gz
+  /usr/bin/make install  -- NOT OK

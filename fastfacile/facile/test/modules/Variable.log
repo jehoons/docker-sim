@@ -1,0 +1,35 @@
+Testing class: Variable
+Creating var1 object: {
+  'Variable' => {
+                  'is_expression_flag' => 0,
+                  'value' => '1',
+                  'name' => 'f1',
+                  'probe_flag' => 0,
+                  'source_line' => 'f1=1.0',
+                  'index' => 0,
+                  'dimension' => 2,
+                  'type' => 'rate',
+                  'is_bifurcation_parameter_flag' => 0
+                }
+};
+Done testing class: Variable
+
+Testing square() and eval_expression():
+t=10.3, f(t)=0
+t=-45, f(t)=0
+t=9.99, f(t)=0
+t=10, f(t)=1
+t=10.499, f(t)=1
+t=10.5, f(t)=0
+t=10.51, f(t)=0
+t=49.99, f(t)=0
+t=50, f(t)=1
+t=50.499, f(t)=1
+t=50.5, f(t)=0
+t=50.51, f(t)=0
+t=169.99, f(t)=0
+t=170, f(t)=1
+t=170.499, f(t)=1
+t=170.5, f(t)=0
+t=170.51, f(t)=0
+Done resting square() and eval_expression().

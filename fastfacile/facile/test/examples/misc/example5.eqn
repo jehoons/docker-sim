@@ -1,0 +1,17 @@
+# loop
+
+A -> B;  f1=1.0
+B -> C;  f2=f1
+C -> D;  f3=f1
+D -> A;  f4=f1
+
+AUTO_VAR
+A
+B
+C
+
+DATA:
+
+A=10.0
+
+

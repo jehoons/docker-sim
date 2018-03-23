@@ -1,0 +1,60 @@
+####################################################################
+# File: DynRates.eqn
+# Description: Showcase/test of dynamic rate functionalities
+#              for EasyStoch the simulator.
+####################################################################
+
+#----------------
+EQN:
+#----------------
+
+variable f0=1e3
+variable fx2 = 2000
+variable fsq = square(2*pi*(t-10)/40, 50)+1
+
+# square wave changes at 10,30,50,70...
+X + Y <-> XY; rateXY = 1e6*0.5*fsq; b0 = 1
+
+# the following tests expression evaluation of easystoch output
+A1 + B -> A2 + B; f1=1e6;
+A2 + B -> A3 + B; f2=f0*f0
+A3 + B -> A4 + B; f3=3*f2
+A4 + B -> A1 + B; f4=1000*fx2*fsq
+
+table T1 = (0,1.0, 25,2.2, 55,0.55)
+
+D1 <-> E1; f10 = table(T1,t); b10=1
+D2 <-> E2; f11 = 1+0.9*sin(2*pi*0.01*t); b11=1
+# ':1' notation indicates reaction rates are piecewise-linear
+D3 <-> E3; f10:1; b10
+D4 <-> E4; f11:1; b11=1
+
+#----------------
+INIT:
+#----------------
+
+X = 1e-6;   # about 602N in 1e-15 L
+Y = 2000N;
+
+A1 = 1000N;
+B = 1000N;
+
+D1 = 1000N
+D2 = 2000N
+D3 = 1000N
+D4 = 2000N
+
+#----------------
+CONFIG:
+#----------------
+
+t_final = 100
+
+compartment_volume = 1e-15   # in L
+
+ode_event_times = 10 30 50 70 90
+
+easystoch_sample_times{fsq} = 10 30 50 70 90
+easystoch_sample_times{f10} = table(T1,time_list)
+easystoch_sample_times{f11} = vector(0,15,tf)
+

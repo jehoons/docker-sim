@@ -1,0 +1,31 @@
+## Test file.  Dual phosphorylation-dephosphorylation cycle by 
+## 2004 Markevich et al, JCB
+## The dephos. steps are simplified.
+## Notation: 
+## K: MAPKK
+## P3: MKP3
+###
+
+M + K <-> MK;	k1=1; k_1="3";
+MK -> Mp + K;   k2=k_1
+Mp + K <-> MpK; k3=1; k_3=k1;
+MpK -> Mpp + K; k4="sin(k1^2.3*3)^k2";
+##
+Mpp + P3 <-> MppP3;	h1=1; h_1=1;
+MppP3 -> Mp + P3;	my_h3=1;
+Mp + P3 <-> MpP3;	h4=1; h_4="1";
+MpP3 -> M + P3;		my_h6=1;
+
+###################
+BIFURC_PARAM
+###################
+K_tot # this works because K is specified as fixed in AUTO_VAR.
+Mp_tot # this should generate a warning
+
+###################
+MOIETY
+###################
+independent varTest # does not exist as variable.  should give warning
+dependent K, M, P3
+dependent MK # should give warning because M & K are already constrained
+

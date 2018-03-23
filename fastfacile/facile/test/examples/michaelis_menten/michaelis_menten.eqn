@@ -1,0 +1,10 @@
+E+S <-> C; 	f= 1.5e6; b= 1e3
+C -> P + E;		k= 1e3
+
+INIT
+E= 1uM
+S= 1000uM
+
+MOIETY
+independent C, P
+

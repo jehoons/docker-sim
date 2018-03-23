@@ -1,0 +1,24 @@
+
+variable mega = 1e6
+
+# mass-action
+E1+S <-> C; 	f1= 1.5*mega; b1= 1e3
+C -> P + E1;		k1= 1e3
+
+# explicit velocity
+E2+S <=> C; 	f2= mega*E2*S; b2= 1e3*C
+C => P + E2;		k2= 1e3*C
+
+P -> null;  fd=f1+f2
+
+INIT
+
+E1= 1uM
+E2= 1.5uM
+S= 1000uM
+
+
+
+MOIETY
+independent C, P
+

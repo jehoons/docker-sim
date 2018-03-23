@@ -1,0 +1,8 @@
+# poisson process
+
+D -> A + D	;k= 10 
+A -> null	;d= 1
+
+INIT:
+D= 1
+

@@ -1,7 +1,8 @@
 #!/bin/bash 
 IMAGE=jhsong/sysbio
 CONTAINER=hellosysbio
-PORT_MAPS="--publish=9995:9995" 
+PORT_MAPS="--publish=19921:9995" 
+# PORT_MAPS=-P
 VOLUME_MAPS="--volume=`pwd`/share:/root/share" 
 build() { 
     docker build . -t $IMAGE
@@ -28,10 +29,11 @@ case "$1" in
     stop)
         stop
         ;;
-    restart)
+    update)
         stop & 
         echo "wait stoping ..."
         wait 
+        build
         start $2
         ;; 
     start) 
@@ -41,11 +43,4 @@ case "$1" in
         stop
         ;;
     *)
-        echo 
-        echo "Usage $0 shell"
-        echo "Usage $0 build"
-        echo "Usage $0 start"
-        echo "Usage $0 stop"
-        echo "Usage $0 restart"
-        echo 
 esac

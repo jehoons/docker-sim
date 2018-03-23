@@ -78,6 +78,9 @@ COPY .vimrc /root/.vimrc
 RUN mkdir -p /root/.vim/autoload /root/.vim/bundle && \
     curl -LSso /root/.vim/autoload/pathogen.vim https://tpo.pe/pathogen.vim
 RUN cd /root/.vim/bundle && git clone git://github.com/neo4j-contrib/cypher-vim-syntax.git
+RUN vim +NeoBundleInstall +qall
+
+
 
 # etc 
 RUN apt-get update && apt-get install -y \
@@ -108,9 +111,32 @@ RUN pip install -r /tmp/requirements.txt
 # Tellurirum 
 RUN pip install tellurium
 
+# Dep for facile 
+RUN cpan -i Class::Std
 
-ARG IPADDR=localhost
-ENV STANDB_IPADDR=${IPADDR}
+#gsl-2.2.tar.gz  sundials-2.3.0.tar.gz  sundials-2.5.0.tar.gz  vfgen-2.5.0-linux-x86_64
+COPY fastfacile /usr/local/fastfacile
+
+RUN cd /usr/local/fastfacile/deps && \
+    wget -O gsl-2.2.tar.gz https://ndownloader.figshare.com/files/10838513 && \
+    tar xvf gsl-2.2.tar.gz
+
+RUN cd /usr/local/fastfacile/deps/gsl-2.2 && ./configure --with-cflags="-O4 -fPIC" --prefix=/usr/local/gsl-2.2
+RUN cd /usr/local/fastfacile/deps/gsl-2.2 && make clean && make -j 20 
+
+RUN cd /usr/local/fastfacile/deps && \
+    wget -O sundials-2.3.0.tar.gz  https://ndownloader.figshare.com/files/10838510 && \
+    tar xvf sundials-2.3.0.tar.gz
+
+RUN cd /usr/local/fastfacile/deps/sundials-2.3.0 && \
+    ./configure --with-cflags="-O4 -fPIC" --prefix=/usr/local/sundials-2.3.0
+
+RUN cd /usr/local/fastfacile/deps/sundials-2.3.0 && \
+    make clean && make -j 20 && make install 
+
+RUN cd /usr/bin && \
+    wget -O vfgen https://ndownloader.figshare.com/files/10838516 && \
+    chmod +x vfgen 
 
 # jupyter
 EXPOSE 8888
@@ -122,7 +148,7 @@ COPY docker-entrypoint.sh /docker-entrypoint.sh
 COPY ./local-package/* /tmp/
 COPY config/jupyter_notebook_config.py /root/.jupyter/
 
-ENV PATH /usr/local/neo4j-guide:$PATH
+ENV PATH /usr/local/fastfacile/bin:/usr/local/fastfacile/facile:$PATH
 ENV LC_ALL=en_US.UTF-8
 ENV LANG=en_US.UTF-8
 

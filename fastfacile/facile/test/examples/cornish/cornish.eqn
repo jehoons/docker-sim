@@ -1,0 +1,17 @@
+# Example from Cornish-Bowden & Hofmeyr 2002, J. Theo. Biol. 216:179
+# Glycolysis network.  Should identify 3 constraints.
+# 
+g => a + h;	v1=1
+a + g => b + h;	v2=1
+b => c + d;	v3=1
+c => d;		v4=1
+c + k => f + j;	v7=1
+d + j => e + k;	v5=1
+e + h => g;	v6=1
+f + h => g;	v8=1
+h + h => i + g;	v9=1
+
+INIT
+b=2;
+g=2;
+h=2;

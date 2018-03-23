@@ -1,0 +1,26 @@
+# quick test to make sure CONFIG section is properly parsed
+
+A + B -> X + Y; f1=1.1
+
+
+CONFIG
+
+# General
+t_final = 1.5
+compartment_volume = 2e-15
+
+# Matlab
+t_vector = [t0:0.01:tf]
+matlab_ode_solver = ode45
+matlab_odeset_options = odeset('MaxStep',0.01)
+ode_event_times = 0.2 0.4 0.6
+SS_timescale = 10
+SS_RelTol = 1e-4
+SS_AbsTol = 1e-6
+
+# EasyStoch
+easystoch_sample_times{f1} = 0.3 0.4 0.7
+
+# XPP
+@ xlow = 0
+

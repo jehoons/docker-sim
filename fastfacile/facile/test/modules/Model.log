@@ -1,0 +1,26 @@
+{
+  'Model' => {
+               'reaction_list' => bless( do{\(my $o = undef)}, 'ReactionList' ),
+               'node_list' => bless( do{\(my $o = undef)}, 'NodeList' ),
+               'config_ref' => {
+                                 'solver' => 'ode23s',
+                                 'xpp_config' => [],
+                                 'plot_flag' => 0,
+                                 'SS_AbsTol' => '',
+                                 'SS_timescale' => '',
+                                 'tf' => 'NO_TIME_SPECIFIED',
+                                 'easystoch_sample_times' => {},
+                                 'SS_RelTol' => '',
+                                 'compartment_volume' => 'NOT_SPECIFIED',
+                                 'ode_event_times' => undef,
+                                 'tv' => '[t0 tf]',
+                                 'solver_options' => 'odeset()',
+                                 'biRateThreshold' => '10000',
+                                 'tk' => -1
+                               },
+               'variable_list' => bless( do{\(my $o = undef)}, 'VariableList' )
+             }
+};
+(* initial values *)
+
+(* ode for independent species *)
