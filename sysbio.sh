@@ -47,6 +47,11 @@ case "$MODE" in
         stop 
         start "$FOREGROUND"  
         ;; 
+    update)
+        stop
+        build 
+        start "$FOREGROUND"  
+        ;; 
     *) 
         echo "running with unknown parameter "
 esac 

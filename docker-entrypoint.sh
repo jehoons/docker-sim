@@ -6,11 +6,13 @@ if [ "${cmd}" == "startup" ]; then
     echo "#      Jupyter lab"
     echo "###########################"
     export SHELL=/bin/bash
+    mkdir -p share/logs
+    logfile=share/logs/jupyterlab.log
     jupyter lab --port=9995 --no-browser --ip=0.0.0.0 --allow-root \
-        --notebook-dir=`pwd` >& logs/jupyterlab.log & 
+        --notebook-dir=`pwd` >& ${logfile} & 
     sleep 1
 
-    tail -f logs/jupyterlab.log
+    tail -f ${logfile}
 else
     exec "$@"
 fi

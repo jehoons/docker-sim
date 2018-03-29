@@ -79,14 +79,7 @@ COPY .vimrc /root/.vimrc
 RUN mkdir -p /root/.vim/autoload /root/.vim/bundle && \
     curl -LSso /root/.vim/autoload/pathogen.vim https://tpo.pe/pathogen.vim
 RUN cd /root/.vim/bundle && git clone git://github.com/neo4j-contrib/cypher-vim-syntax.git
-<<<<<<< HEAD
 RUN vim +NeoBundleInstall +qall
-
-
-||||||| merged common ancestors
-=======
-RUN vim +NeoBundleInstall +qall
->>>>>>> 1f24fefc6d7c1700a323d467dc8f7f3ab15649ec
 
 # etc 
 RUN apt-get update && apt-get install -y \
@@ -117,7 +110,7 @@ RUN pip install -r /tmp/requirements.txt
 # tellurirum 
 RUN pip install tellurium
 
-<<<<<<< HEAD
+# <<<<<<< HEAD
 # Dep for facile 
 RUN cpan -i Class::Std
 
@@ -144,14 +137,6 @@ RUN cd /usr/local/fastfacile/deps/sundials-2.3.0 && \
 RUN cd /usr/bin && \
     wget -O vfgen https://ndownloader.figshare.com/files/10838516 && \
     chmod +x vfgen 
-||||||| merged common ancestors
-
-ARG IPADDR=localhost
-ENV STANDB_IPADDR=${IPADDR}
-=======
-ARG IPADDR=localhost
-ENV STANDB_IPADDR=${IPADDR}
->>>>>>> 1f24fefc6d7c1700a323d467dc8f7f3ab15649ec
 
 # jupyter
 EXPOSE 8888
