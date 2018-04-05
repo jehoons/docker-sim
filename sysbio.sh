@@ -1,22 +1,36 @@
 #!/bin/bash 
 IMAGE=jhsong/sysbio
 CONTAINER=hellosysbio
-PORT_MAPS="--publish=9995:9995" 
+# PORT_MAPS="--publish=8888:8888" 
+PORT_MAPS="-P" 
 VOLUME_MAPS="--volume=`pwd`/share:/root/share" 
+
 build() { 
     docker build . -t $IMAGE
 }
+
 shell() { 
     docker exec -it ${CONTAINER} bash 
 }
+
 start() {
-    [ "$1" == "yes" ] && \
-    docker run -it    --rm --name ${CONTAINER} ${PORT_MAPS} ${VOLUME_MAPS} $IMAGE || 
-    docker run -it -d --rm --name ${CONTAINER} ${PORT_MAPS} ${VOLUME_MAPS} $IMAGE 
+    [ "$1" == "yes" ] && DOCKEROPT="-it --rm" || DOCKEROPT="-it -d --rm"
+    docker run ${DOCKEROPT} --name ${CONTAINER} ${PORT_MAPS} ${VOLUME_MAPS} $IMAGE 
 }
+
 stop() {
     docker stop --time=10 ${CONTAINER}
 }
+
+jup(){
+    [ -e "host.txt" ] && hostipaddr=$(cat host.txt) || hostipaddr="localhost"
+    jupaddr=$(cat share/logs/jupyterlab.log | grep -o http://0.0.0.0:8888/.*$ | head -1 | sed "s/0.0.0.0/${hostipaddr}/g")
+    jupport=$(docker ps | grep --color ${CONTAINER} | grep -o --color "[0-9]\+->8888\+" | sed "s/->8888//g")
+    echo 
+    echo ${jupaddr} | sed "s/8888/${jupport}/g"
+    echo
+}
+
 source $(dirname $0)/argparse.bash || exit 1
 argparse "$@" <<EOF || exit 1
 
@@ -48,9 +62,15 @@ case "$MODE" in
         start "$FOREGROUND"  
         ;; 
     update)
+        echo 'stopping ...'
         stop
+        echo 'docker build  ...'
         build 
+        echo 'starting ...'
         start "$FOREGROUND"  
+        ;; 
+    jup)
+        jup
         ;; 
     *) 
         echo "running with unknown parameter "
