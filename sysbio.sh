@@ -1,72 +1,152 @@
 #!/bin/bash 
-IMAGE=jhsong/sysbio
-CONTAINER=hellosysbio
-# PORT_MAPS="--publish=8888:8888" 
-PORT_MAPS="-P" 
-VOLUME_MAPS="--volume=`pwd`/share:/root/share" 
+if [ -e "base.txt" ] 
+then 
+    BASE_IMAGE=$(cat base.txt | awk -v line=1 'NR==line')
+else
+    BASE_IMAGE="9.0-cudnn7-devel-ubuntu16.04"
+fi
+WHOAMI=$(basename ${HOME})
+IMAGE=jhsong/sysbio:${BASE_IMAGE} 
+IMAGE_FILE=sysbio-${BASE_IMAGE}.tar
+CONTAINER=sysbio-${BASE_IMAGE}-${WHOAMI} 
+DOCKER_HOME=/root
+HOST_SCRATCH_DIR=${HOME}/.scratch-sysbio-${BASE_IMAGE}
+DOCKER_SCRATCH_DIR=${DOCKER_HOME}/.scratch
+VOLUMNE_MAPS="-v ${HOST_SCRATCH_DIR}:${DOCKER_SCRATCH_DIR} -v `pwd`/share:${DOCKER_HOME}/share -v ${HOME}:${DOCKER_HOME}/home"
+PORT_MAPS=-P 
 
-build() { 
-    docker build . -t $IMAGE
+# ------------- main ------------
+shell(){ 
+    docker exec -it ${CONTAINER} su root 
 }
 
-shell() { 
-    docker exec -it ${CONTAINER} bash 
+push(){ 
+    docker push ${IMAGE} 
 }
 
-start() {
-    [ "$1" == "yes" ] && DOCKEROPT="-it --rm" || DOCKEROPT="-it -d --rm"
-    docker run ${DOCKEROPT} --name ${CONTAINER} ${PORT_MAPS} ${VOLUME_MAPS} $IMAGE 
+pull(){ 
+    docker pull ${IMAGE} 
 }
 
-stop() {
-    docker stop --time=10 ${CONTAINER}
+save(){ 
+    echo "save image to file ${IMAGE_FILE} ..."
+    docker save ${IMAGE} > ${IMAGE_FILE} 
 }
 
-jup(){
-    [ -e "host.txt" ] && hostipaddr=$(cat host.txt) || hostipaddr="localhost"
+ps(){ 
+    docker ps | grep --color ${CONTAINER} 
+}
+
+build(){ 
+    echo "*****************************************"
+    echo "base image: ${BASE_IMAGE}"
+    echo "*****************************************"
+    docker build . -t ${IMAGE} --build-arg BASE_IMAGE=${BASE_IMAGE} 
+}
+
+jupyter_address(){
+    if [ -e "host.txt" ]
+    then # for server setting 
+        hostipaddr=$(cat host.txt)
+    else 
+        hostipaddr="localhost"
+    fi 
     jupaddr=$(cat share/logs/jupyterlab.log | grep -o http://0.0.0.0:8888/.*$ | head -1 | sed "s/0.0.0.0/${hostipaddr}/g")
     jupport=$(docker ps | grep --color ${CONTAINER} | grep -o --color "[0-9]\+->8888\+" | sed "s/->8888//g")
-    echo 
-    echo ${jupaddr} | sed "s/8888/${jupport}/g"
-    echo
+    conn_jupyter=$(echo ${jupaddr} | sed "s/8888/${jupport}/g")
+    conn_jupyterlab=$(echo ${conn_jupyter} | sed "s/?/lab?/g")
+    echo "Your JupyterLab address is ${conn_jupyterlab}"
+    echo "enjoy!"
+
+    echo $conn_jupyterlab > jupyter_connection.info
+}
+
+start(){
+    mkdir -p ${HOST_SCRATCH_DIR}
+    echo "start ${IMAGE}"
+    if [ "$1" = "yes" ]
+    then 
+        echo "run with nvidia/cuda ..."
+        docker run --runtime=nvidia --rm -d --name ${CONTAINER} ${PORT_MAPS} ${VOLUMNE_MAPS} ${IMAGE} 
+    else 
+        docker run --rm -d --name ${CONTAINER} ${PORT_MAPS} ${VOLUMNE_MAPS} ${IMAGE} 
+    fi 
+    if [ $? -eq 0 ]
+    then 
+        sleep 5
+        jupyter_address
+    else 
+        echo "docker run failed"
+    fi 
+}
+
+stop(){
+	docker stop ${CONTAINER}
 }
 
 source $(dirname $0)/argparse.bash || exit 1
 argparse "$@" <<EOF || exit 1
-parser.add_argument('mode', type=str, help='build|start|stop|restart|shell')
-parser.add_argument('-f', '--foreground', action='store_true', default=False,
-    help='whether foreground mode or not [default %(default)s]')
+parser.description = 'This is a Docker environment for EMR project.'
+parser.add_argument('exec_mode', type=str, 
+    help='shell|push|pull|pload|save|build|jup|start|update'
+    )
+
+parser.add_argument('-f', '--foreground', 
+    action='store_true',
+    help='run with foreground mode? [default %(default)s]', 
+    default=False
+    )
+
+parser.add_argument('-n', '--nvidia', 
+    action='store_true',
+    help='run with foreground mode? [default %(default)s]', 
+    default=False
+    )
+
 EOF
 
-case "$MODE" in 
-    build) 
+case "${EXEC_MODE}" in
+    save)
+        save
+        ;; 
+    load)
+        load 
+        ;; 
+    shell)
+        shell 
+        ;; 
+    jup) 
+        jupyter_address 
+        ;; 
+    build)
         build 
-        ;; 
-    start) 
-        start "$FOREGROUND"
-        ;; 
-    stop) 
-        stop 
-        ;; 
-    shell) 
-        shell  
-        ;; 
-    restart) 
-        stop 
-        start "$FOREGROUND"  
-        ;; 
-    update)
-        echo 'stopping ...'
+        ;;
+    start)
+        start $NVIDIA
+        ;;
+    stop)
         stop
-        echo 'docker build  ...'
+        ;;
+    update)
         build 
-        echo 'starting ...'
-        start "$FOREGROUND"  
+        if [ $? -eq 0 ] 
+        then 
+            echo "wait stoping ..."
+            stop 
+            wait 
+            start $NVIDIA
+        else 
+            echo "build failed"
+        fi 
         ;; 
-    jup)
-        jup
-        ;; 
-    *) 
-        echo "running with unknown parameter "
-esac 
+    push)
+        push  
+        ;;
+    pull)
+        pull  
+        ;;
+    *)
+        echo 
+esac
+
 
