@@ -50,7 +50,7 @@ VOLUME /root
 
 EXPOSE 8888 
 
-COPY .gitconfig /root/.gitconfig
+# COPY .gitconfig /root/.gitconfig
 COPY docker-entrypoint.sh /docker-entrypoint.sh
 
 ENTRYPOINT ["/docker-entrypoint.sh"] 
