@@ -36,6 +36,18 @@ RUN cd /usr/bin && \
     wget -O vfgen https://ndownloader.figshare.com/files/10838516 && \
     chmod +x vfgen 
 
+RUN cd /home && wget http://downloads.sourceforge.net/project/boost/boost/1.58.0/boost_1_58_0.tar.gz \
+  && tar xfz boost_1_58_0.tar.gz \
+  && rm boost_1_58_0.tar.gz \
+  && cd boost_1_58_0 \
+  && ./bootstrap.sh --prefix=/usr/local --with-libraries=program_options \
+  && ./b2 install \
+  && cd /home \
+  && rm -rf boost_1_58_0
+
+RUN apt-get update && apt-get install cmake-curses-gui
+
+RUN pip install deap
 
 ENV PATH /usr/local/fastfacile/bin:/usr/local/fastfacile/facile:$PATH
 
