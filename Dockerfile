@@ -47,7 +47,7 @@ RUN cd /home && wget http://downloads.sourceforge.net/project/boost/boost/1.58.0
 
 RUN apt-get update && apt-get install cmake-curses-gui
 
-RUN pip install deap
+RUN pip install deap scoop
 
 ENV PATH /usr/local/fastfacile/bin:/usr/local/fastfacile/facile:$PATH
 
