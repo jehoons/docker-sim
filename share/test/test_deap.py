@@ -2,8 +2,7 @@ import random
 from tqdm import tqdm 
 from deap import creator, base, tools, algorithms
 
-import time 
-
+import time
 import multiprocessing
 
 def evalOneMax(individual):
